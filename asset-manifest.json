@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/TutoringCenterFilinAdmin/static/js/main.caeff79c.js",
+    "main.js": "/TutoringCenterFilinAdmin/static/js/main.e12a5d8d.js",
     "index.html": "/TutoringCenterFilinAdmin/index.html",
-    "main.caeff79c.js.map": "/TutoringCenterFilinAdmin/static/js/main.caeff79c.js.map"
+    "main.e12a5d8d.js.map": "/TutoringCenterFilinAdmin/static/js/main.e12a5d8d.js.map"
   },
   "entrypoints": [
-    "static/js/main.caeff79c.js"
+    "static/js/main.e12a5d8d.js"
   ]
 }
