@@ -19,7 +19,7 @@ export const useLogin = () => {
     const clearError = (key:string) => {
       messageApi.destroy(key);
     }
-    const onSubmit:SubmitHandler<LoginInterface> = async (data:LoginInterface) => {
+    const onSubmit = async (data:LoginInterface) => {
         try{
             await signInWithEmailAndPassword(googleAuthProvider,data.email,data.password);
             setSuccess(true);
@@ -33,14 +33,15 @@ export const useLogin = () => {
             }
         }
       }
-      const signInWithGoogle = async () => {
-        try{
-            await signInWithPopup(googleAuthProvider,googleProvider);
-            setSuccess(true);
-        }catch(err){
-            console.error(err);
-        }
-      }    
 
-    return {success,contextHolder,onSubmit,signInWithGoogle,showError,clearError};
+  // const signInWithGoogle = async () => {
+  //   try{
+  //       await signInWithPopup(googleAuthProvider,googleProvider);
+  //       setSuccess(true);
+  //   }catch(err){
+  //       console.error(err);
+  //   }
+  // }    
+
+    return {success,contextHolder,onSubmit,clearError};
 }

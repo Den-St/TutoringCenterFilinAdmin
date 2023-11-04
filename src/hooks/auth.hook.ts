@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { googleAuthProvider } from "../firebase/initializeFirebase";
 import { setUser } from "../store/userSlice";
 import { useAppDispacth } from "./redux";
-import { getUserByEmail } from '../firebase/db/adminUsers/get/getAdminUserByEmail';
+import { getAdminUserByEmail } from '../firebase/db/adminUsers/get/getAdminUserByEmail';
 
 export const useAuth = () => {
     const [loading, setLoading] = useState(true);
@@ -20,7 +20,7 @@ export const useAuth = () => {
                 return;
             }
 
-            const user = await getUserByEmail(googleAuthProvider.currentUser?.email);
+            const user = await getAdminUserByEmail(googleAuthProvider.currentUser?.email);
 
             const userDataGoogle:UserT = {
                 email:googleAuthProvider.currentUser?.email,

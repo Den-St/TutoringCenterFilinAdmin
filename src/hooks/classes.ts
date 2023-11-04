@@ -29,7 +29,8 @@ export const useAdminClasses = () => {
     const onChangePagination = (page:number,pageSize:number) => {
         setPagination({page,pageSize});
     }
-    const onCreateClass:SubmitHandler<CreateClassType> = async (data:CreateClassType) => {
+    const onCreateClass= async (data:CreateClassType) => {
+        console.log(data);
         setLoading(prev => ({...prev,create:true}));
         await createClass({...data});
         setLoading(prev => ({...prev,create:false}));

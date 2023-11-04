@@ -4,27 +4,39 @@ import { useForm } from "react-hook-form";
 import { Navigate } from "react-router-dom";
 import { adminNavRoutes } from "../../consts/routes";
 import { useAppSelector } from "../../hooks/redux";
-import { Container, Form, Input } from "./styles";
+import { Container } from "./styles";
+import { Button, Form, Input } from "antd";
+import Title from "antd/es/typography/Title";
 
 export const Login = () => {
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-        watch,
-    } = useForm<LoginInterface>();
-    const {onSubmit,showError,signInWithGoogle,success,contextHolder} = useLogin();
+    const {onSubmit,success,contextHolder} = useLogin();
     const userId = useAppSelector(state => state.user?.id);
 
-    if(success || userId) <Navigate to={adminNavRoutes.classes.route}/>;
+    if(success || userId) return <Navigate to={adminNavRoutes.classes.route}/>;
     
     return <Container>
         {contextHolder}
-        <Form onSubmit={handleSubmit(onSubmit)}>
-            <Input {...register('email')} placeholder="email" type="email" />
-            <Input {...register('password',{minLength:6})} type={'password'} placeholder="password" />
-            <Input type={'submit'} value="SUBMIT"/>
+         <Form onFinish={onSubmit} autoComplete={'off'}>
+            <Title level={4}>Login</Title>
+            <Form.Item
+                label="Email"
+                name="email"
+                rules={[{ required: true, message: 'Please input email!' }]}
+            >
+                <Input type={'email'} placeholder={'email'}/>
+            </Form.Item>
+            <Form.Item
+                label="Password"
+                name="password"
+                rules={[{ required: true, message: 'Please input password!' }]}
+            >
+                <Input type={"password"} placeholder={'placeholder'} />
+            </Form.Item>
+            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                <Button type="primary" htmlType="submit">
+                    Submit
+                </Button>
+            </Form.Item>
         </Form>
-        <button onClick={signInWithGoogle}>GOOGLE</button>
     </Container>
 }
