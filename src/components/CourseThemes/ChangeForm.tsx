@@ -26,7 +26,7 @@ export const ChangeItemForm:React.FC<Props> = ({onChangeItem,pickedItem,chosenCo
     return <Form onFinish={onChangeItem} form={form} disabled={!pickedItem} autoComplete={'off'}>
         <Title level={4}>Change theme</Title>
         <Form.Item
-            label="Course"
+            label="Курс"
             name="course"
             rules={[{ required: true, message: 'Please choose course!' }]}
         >
@@ -39,16 +39,16 @@ export const ChangeItemForm:React.FC<Props> = ({onChangeItem,pickedItem,chosenCo
                 >
                     {coursesItems?.length ? coursesItems.map(courseItem => 
                         <Option key={courseItem.id} value={JSON.stringify(courseItem)}>
-                            {courseItem.shortName}
+                            {courseItem.secondName}
                         </Option>
                     ) : pickedItem?.course &&
                     <Option key={pickedItem?.course?.id} value={JSON.stringify(pickedItem?.course)}>
-                        {pickedItem?.course?.shortName}
+                        {pickedItem?.course?.secondName}
                     </Option>}
             </Select>  
         </Form.Item>
         <Form.Item
-            label="Name"
+            label="Назва"
             name="name"
             rules={[{ required: true, message: 'Please input name of theme!' }]}
         >

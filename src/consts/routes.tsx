@@ -33,27 +33,27 @@ Object.keys(routes).forEach(key => wrappedRoutes[key as routesKeysType] = routeW
 export type adminNavRoutesKeysType = 'users' | 'classes' | 'courses' | 'courseThemes' | 'tests' | 'videoLessons';
 export const adminNavRoutes:Record<adminNavRoutesKeysType,navRoutesType> = {
     users:{
-        title:'Users',
+        title:'Користувачі',
         route:wrappedRoutes.adminUsers
     },
     classes:{
-        title:'Classes',
+        title:'Класи',
         route:wrappedRoutes.adminClasses,
     },
     courses:{
-        title:'Courses',
+        title:'Курси',
         route:wrappedRoutes.adminCourses,
     },
     courseThemes:{
-        title:'Course themes',
+        title:'Теми курсів',
         route:wrappedRoutes.adminCourseThemes,
     },
     videoLessons:{
-        title:'Video lessons',
+        title:'Відео уроки',
         route:wrappedRoutes.adminVideoLessons,
     },
     tests:{
-        title:'Tests',
+        title:'Тести',
         route:wrappedRoutes.adminTests,
     },
 }

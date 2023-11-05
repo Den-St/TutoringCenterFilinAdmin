@@ -14,12 +14,12 @@ const columns:ColumnsType<ClassT> = [
     //     key:'id'
     // },
     {
-        title:'Number',
+        title:'Номер',
         dataIndex:'number',
         key:'number'
     },
     {
-        title:'Is active',
+        title:'Активний',
         dataIndex:'isActive',
         key:'isActive',
         render:(value) => <Checkbox checked={value} onChange={() => {}} />
@@ -30,6 +30,10 @@ export default function Classes() {
     const {loading,onChangePagination,classes,refetch,count,pagination,onCreateClass,onChangeClass,onRowEnter,pickedClass} = useAdminClasses();
     const [form] = Form.useForm<CreateClassType>(); 
 
+    const onSubmit = (data: CreateClassType) => {
+        onCreateClass(data);
+        form.resetFields();
+    }
     const paginationConfig:TablePaginationConfig = {
         onChange: onChangePagination,
         total:count,
@@ -61,17 +65,17 @@ export default function Classes() {
             loading={loading.classes} pagination={paginationConfig}
         />
         <FormsContainer>
-            <Form onFinish={onCreateClass} form={form} autoComplete={'off'}>
+            <Form onFinish={onSubmit} form={form} autoComplete={'off'} >
                 <Title level={4}>Create class</Title>
                 <Form.Item
-                    label="Number"
+                    label="Номер"
                     name="number"
                     rules={[{ required: true, message: 'Please input class number!' }]}
                 >
                     <Input type="number"/>
                 </Form.Item>
                 <Form.Item
-                    label="Is active"
+                    label="Активний"
                     name="isActive"
                     valuePropName="checked"
                     initialValue={false}

@@ -3,7 +3,7 @@ import { Button, Checkbox, Form, Input, Select, Table } from "antd";
 import { ColumnsType, ColumnType, TablePaginationConfig } from "antd/es/table";
 import {ChangeItemForm } from "./ChangeForm";
 import { Container } from "./styles";
-import { CourseT, } from "../../types/course";
+import { CourseT, CreateCourseT, } from "../../types/course";
 import { useCourses } from "../../hooks/courses";
 import { useSearchClass } from "../../hooks/searchClassNumber";
 import { Timestamp } from "firebase/firestore";
@@ -15,7 +15,7 @@ const {Option} = Select;
 export default function Courses() {
     const {loading,onChangePagination,items,refetch,count,pagination,onChangeItem,onCreateItem,onRowEnter,pickedItem,onChangeClass,chosenClass,debounceSearch} = useCourses();
     const {debounceSearchClass,classesItems,classSearchLoading} = useSearchClass();
-
+ 
     const paginationConfig:TablePaginationConfig = {
         onChange: onChangePagination,
         total:count,
@@ -39,7 +39,7 @@ export default function Courses() {
         //     key:'id'
         // },
         {
-            title:'Short name',
+            title:'Коротка назва',
             dataIndex:'shortName',
             key:'shortName',
             filterDropdown:() => {
@@ -47,29 +47,30 @@ export default function Courses() {
             }
         },
         {
-            title:'Second name',
+            title:'Друга назва',
             dataIndex:'secondName',
             key:'secondName',
         },
         {
-            title:'Description',
+            title:'Опис',
             dataIndex:'description',
-            key:'description'
+            key:'description',
+            render:(text:string) => text.length >= 100 ? text.slice(0,100) + '...' : text
         },
         {
-            title:'Class number',
+            title:'Номер класу',
             dataIndex:'class',
             key:'class',
             render:(value:ClassT) => value?.number
         },
         {
-            title:'Created at',
+            title:'Створено',
             dataIndex:'createdAt',
             key:'createdAt',
             render:(value:Timestamp) => value?.toDate().toLocaleString()
         },
         {
-            title:'Is active',
+            title:'Активний',
             dataIndex:'isActive',
             key:'isActive',
             render:(value) => <Checkbox checked={value} onChange={() => {}} />
@@ -88,9 +89,9 @@ export default function Courses() {
             <Form onFinish={onCreateItem} autoComplete={'off'}>
                 <Title level={4}>Create course</Title>
                 <Form.Item
-                    label="Class number"
+                    label="Номер класу"
                     name="class"
-                    rules={[{ required: true, message: 'Please choose class!' }]}
+                    rules={[{ required: true, message: 'Оберіть клас!' }]}
                 >
                       <Select 
                         onSearch={debounceSearchClass}
@@ -107,28 +108,28 @@ export default function Courses() {
                     </Select>  
                 </Form.Item>
                 <Form.Item
-                    label="Description"
+                    label="Опис"
                     name="description"
-                    rules={[{ required: true, message: 'Please input description of course!' }]}
+                    rules={[{ required: true, message: 'Введіть опис курсу!' }]}
                 >
                     <Input.TextArea autoSize={true}  />
                 </Form.Item>
                 <Form.Item<CourseT>
-                    label="Short name"
+                    label="Коротка назва"
                     name="shortName"
-                    rules={[{ required: true, message: 'Please input short name of course!' }]}
+                    rules={[{ required: true, message: 'Введіть коротку назву курсу!' }]}
                 >
                     <Input.TextArea autoSize={true}  />
                 </Form.Item>
                 <Form.Item
-                    label="Second name"
+                    label="Друга назва"
                     name="secondName"
-                    rules={[{ required: true, message: 'Please input second name of course!' }]}
+                    rules={[{ required: true, message: 'Введіть другу назву!' }]}
                 >
                     <Input.TextArea autoSize={true}  />
                 </Form.Item>
                 <Form.Item
-                    label="Is active"
+                    label="Активний"
                     name="isActive"
                     valuePropName="checked"
                 >

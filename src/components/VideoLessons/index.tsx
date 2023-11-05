@@ -58,7 +58,8 @@ export default function VideoLessons() {
         {
             title:'Description',
             dataIndex:'description',
-            key:'description'
+            key:'description',
+            render:(text:string) => text.length >= 100 ? text.slice(0,100) + '...' : text,
         },
         {
             title:'Video URL',

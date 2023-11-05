@@ -12,21 +12,25 @@ type Props = {
 export const ChangeClassForm:React.FC<Props> = ({onChangeClass,classes,pickedClass}) => {
     const [form] = Form.useForm();
     console.log('t',pickedClass)
+    const onSubmit = (data: ChangeClassType) => {
+        onChangeClass(data);
+        form.resetFields();
+    }
     useEffect(() => {
         form.setFieldsValue({number:pickedClass?.number,isActive:pickedClass?.isActive});
     },[pickedClass]);
 
-    return <Form onFinish={onChangeClass} form={form} disabled={!pickedClass} autoComplete={'off'}>
+    return <Form onFinish={onSubmit} form={form} disabled={!pickedClass} autoComplete={'off'}>
         <Title level={4}>Change class</Title>
         <Form.Item
-            label="Number"
+            label="Номер"
             name="number"
             rules={[{ required: true, message: 'Please input class number!' }]}
         >
             <Input type="number"/>
         </Form.Item>
         <Form.Item
-            label="Is active"
+            label="Активний"
             name="isActive"
             valuePropName="checked"
         >

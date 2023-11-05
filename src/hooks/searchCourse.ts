@@ -3,7 +3,7 @@ import { ClassT } from '../types/class';
 import { useCallback, useState } from 'react';
 import { getClassesByNumber } from '../firebase/db/classes/get/getClassesByNumber';
 import _debounce from 'lodash/debounce';
-import { getCoursesByShortName } from '../firebase/db/courses/get/getCoursesByShortName';
+import { getCoursesBySecondName } from '../firebase/db/courses/get/getCoursesBySecondName';
 
 export const useSearchCourse = () => {
     const [coursesItems,setCoursesItems] = useState<CourseT[]>([]);
@@ -16,7 +16,7 @@ export const useSearchCourse = () => {
         }
         setLoading(true);
 
-        const res = await getCoursesByShortName(value);
+        const res = await getCoursesBySecondName(value);
         setLoading(false);
         if(!res) return;
         setCoursesItems(res);

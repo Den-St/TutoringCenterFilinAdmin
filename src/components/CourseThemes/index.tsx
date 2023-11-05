@@ -63,7 +63,7 @@ export default function CourseThemes() {
             title:'Course',
             dataIndex:'course',
             key:'course',
-            render:(value:CourseT) => value?.shortName
+            render:(value:CourseT) => value?.secondName
         },
         {
             title:'Created at',
@@ -90,11 +90,11 @@ export default function CourseThemes() {
             loading={loading.items} pagination={paginationConfig}/>
         <FormsContainer>
             <Form onFinish={onCreateItem} autoComplete={'off'}>
-                <Title level={4}>Create course</Title>
+                <Title level={4}>Створити тему</Title>
                 <Form.Item
-                    label="Course"
+                    label="Курс"
                     name="course"
-                    rules={[{ required: true, message: 'Please choose course!' }]}
+                    rules={[{ required: true, message: 'Оберіть курс!' }]}
                 >
                     <Select 
                         onSearch={debounceSearchClass}
@@ -105,34 +105,34 @@ export default function CourseThemes() {
                         >
                             {coursesItems && coursesItems.map(courseItem => 
                                 <Option key={courseItem.id} value={JSON.stringify(courseItem)}>
-                                    {courseItem.shortName}
+                                    {courseItem.secondName}
                                 </Option>
                             )}
                     </Select>   
                 </Form.Item>
                 <Form.Item
-                    label="Name"
+                    label="Назва"
                     name="name"
-                    rules={[{ required: true, message: 'Please input name of theme!' }]}
+                    rules={[{ required: true, message: 'Оберіть назву теми!'}]}
                 >
                     <Input />
                 </Form.Item>
                 <Form.Item
-                    label="Subscription duration"
+                    label="Тривалисть підписки(місяці)"
                     name="subscriptionDuration"
-                    rules={[{ required: true, message: 'Please input short name of course!' }]}
+                    rules={[{ required: true, message: 'Оберіть тривалість підписки!' }]}
                 >
                     <Input type={"number"} />
                 </Form.Item>
                 <Form.Item
-                    label="Price"
+                    label="Ціна"
                     name="price"
-                    rules={[{ required: true, message: 'Please input price of theme!' }]}
+                    rules={[{ required: true, message: 'Оберіть ціну!' }]}
                 >
                     <Input type={'number'} />
                 </Form.Item>
                 <Form.Item
-                    label="Is active"
+                    label="Активний"
                     name="isActive"
                     valuePropName="checked"
                 >

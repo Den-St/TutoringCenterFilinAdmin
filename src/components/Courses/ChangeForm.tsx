@@ -26,9 +26,9 @@ export const ChangeItemForm:React.FC<Props> = ({onChangeItem,pickedItem,onChange
     return <Form onFinish={onChangeItem} form={form} disabled={!pickedItem} autoComplete={'off'}>
         <Title level={4}>Change course</Title>
         <Form.Item
-            label="Class number"
+            label="Номер класу"
             name="class"
-            rules={[{ required: true, message: 'Please choose class!' }]}
+            rules={[{ required: true, message: 'Оберіть клас!' }]}
         >
               <Select 
                 onSearch={debounceSearchClass}
@@ -48,28 +48,28 @@ export const ChangeItemForm:React.FC<Props> = ({onChangeItem,pickedItem,onChange
             </Select>  
         </Form.Item>
         <Form.Item
-            label="Description"
+            label="Опис"
             name="description"
             rules={[{ required: true, message: 'Please input description of course!' }]}
         >
             <Input.TextArea autoSize={true}  />
         </Form.Item>
         <Form.Item
-            label="Short name"
+            label="Коротка назва"
             name="shortName"
             rules={[{ required: true, message: 'Please input short name of course!' }]}
         >
             <Input.TextArea autoSize={true}  />
         </Form.Item>
         <Form.Item
-            label="Second name"
+            label="Друга назва"
             name="secondName"
             rules={[{ required: true, message: 'Please input second name of course!' }]}
         >
             <Input.TextArea autoSize={true}  />
         </Form.Item>
         <Form.Item
-            label="Is active"
+            label="Активний"
             name="isActive"
             valuePropName="checked"
         >
