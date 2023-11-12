@@ -42,7 +42,7 @@ export const useVideoLessons = () => {
     const onCreateItem = async (data:CreateVideoLessonT) => {
         if(!chosenTheme) return;
         setLoading(prev => ({...prev,create:true}));
-        await createVideoLesson({...data,courseTheme:chosenTheme.id});
+        await createVideoLesson({...data,courseTheme:chosenTheme.id,number:Number(data.number)});
         setLoading(prev => ({...prev,create:false}));
 
         setLoading(prev => ({...prev,items:true}));

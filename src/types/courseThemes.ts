@@ -1,13 +1,29 @@
 import { CourseT } from './course';
 import { VideoLessonT } from './videoLesson';
 
+type videoLessonT = {
+    name:string,
+    videoURL:string,
+    description:string
+}
+type ThemeTestT = {
+    name:string,
+    testURl:string,
+}
+type ThemeStudyMaterialT = {
+    name:string,
+    studyMaterialURL:string
+}
 export type CourseThemeT = {
     id:string
     course:CourseT
     name:string
     subscriptionDuration:number
-    price:number
-    isActive:boolean
+    price:number,
+    isActive:boolean,
+    videoLessons:Record<number,videoLessonT>[],
+    tests:Record<number,ThemeTestT>[],
+    studyMaterials:Record<number,ThemeStudyMaterialT>[]
 }
 
 export type CreateCourseThemeT = {
@@ -15,7 +31,10 @@ export type CreateCourseThemeT = {
     name:string
     subscriptionDuration:number
     price:number
-    isActive:boolean
+    isActive:boolean,
+    videoLessons:Record<number,videoLessonT>[]
+    tests:Record<number,ThemeTestT>[],
+    studyMaterials:Record<number,ThemeStudyMaterialT>[]
 }
 
 export type ChangeCourseThemeT = {
@@ -24,6 +43,9 @@ export type ChangeCourseThemeT = {
     subscriptionDuration:number
     price:number
     isActive:boolean
+    videoLessons:Record<number,videoLessonT>[]
+    tests:Record<number,ThemeTestT>[],
+    studyMaterials:Record<number,ThemeStudyMaterialT>[]
 }
 export type ChangeCourseThemeWithCourseT = {
     course:CourseT
@@ -31,4 +53,7 @@ export type ChangeCourseThemeWithCourseT = {
     subscriptionDuration:number
     price:number
     isActive:boolean
+    videoLessons:Record<number,videoLessonT>[]
+    tests:Record<number,ThemeTestT>[],
+    studyMaterials:Record<number,ThemeStudyMaterialT>[]
 }

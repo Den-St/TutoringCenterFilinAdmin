@@ -12,9 +12,6 @@ import { useVideoLessons } from "../../hooks/videoLessons";
 import { useSearchCourseThemes } from "../../hooks/searchCourseThemes";
 const {Option} = Select;
 
-
-
-
 export default function VideoLessons() {
     const {loading,onChangePagination,items,refetch,count,pagination,onChangeItem,onCreateItem,onRowEnter,pickedItem,chosenTheme,onChangeChosenTheme,debounceSearch} = useVideoLessons();
     const {debounceSearchClass,classSearchLoading,courseThemesItems} = useSearchCourseThemes();
@@ -65,7 +62,7 @@ export default function VideoLessons() {
             title:'Video URL',
             dataIndex:'videoURL',
             key:'videoURL',
-            render:(value:string) => <a target={'_blank'} href={value}>{value}</a>
+            render:(value:string) => <a target={'_blank'} href={value}>{value.slice(0,40)}</a>
         },
         {
             title:'Theme',

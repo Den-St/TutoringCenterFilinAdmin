@@ -22,6 +22,8 @@ export const RemovePhotoButton = styled.span`
     font-size:25px;
     position:absolute;
     padding:5px;
+    right:10px;
+    top:10px;
     color:white;
 `;
 
@@ -57,6 +59,7 @@ export const PhotosInputContainer = styled.div<{$disabled:boolean}>`
     margin-bottom:20px;
     background:#1677ff;
     border-radius:5px;
+    margin-top:10px;
     .anticon{
         position:absolute;
         padding:5px;

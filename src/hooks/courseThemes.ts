@@ -41,6 +41,7 @@ export const useCourseThemes = () => {
         setPagination({page,pageSize});
     }
     const onCreateItem = async (data:CreateCourseThemeT) => {
+        console.log(data);
         if(!chosenCourse) return;
         setLoading(prev => ({...prev,create:true}));
         await createCourseTheme({...data,course:chosenCourse.id});

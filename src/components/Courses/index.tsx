@@ -1,9 +1,9 @@
 import { ClassT, } from "../../types/class";
 import { Button, Checkbox, Form, Input, Select, Table } from "antd";
-import { ColumnsType, ColumnType, TablePaginationConfig } from "antd/es/table";
+import { ColumnsType, TablePaginationConfig } from "antd/es/table";
 import {ChangeItemForm } from "./ChangeForm";
 import { Container } from "./styles";
-import { CourseT, CreateCourseT, } from "../../types/course";
+import { CourseT, } from "../../types/course";
 import { useCourses } from "../../hooks/courses";
 import { useSearchClass } from "../../hooks/searchClassNumber";
 import { Timestamp } from "firebase/firestore";

@@ -55,7 +55,7 @@ export const useTests = () => {
         if(!chosenTheme) return;
         setLoading(prev => ({...prev,create:true}));
         const photos = await uploadImages(data.photos);
-        await createTest({...data,courseTheme:chosenTheme.id,photos:photos?.map(image => image.metadata.fullPath)});
+        await createTest({...data,courseTheme:chosenTheme.id,photos:photos?.map(image => image.metadata.fullPath),number:Number(data.number)});
         setLoading(prev => ({...prev,create:false}));
 
         setLoading(prev => ({...prev,items:true}));

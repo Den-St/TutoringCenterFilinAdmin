@@ -27,7 +27,6 @@ export default function Tests() {
     const answers = Form.useWatch('answers', form);
     const maxPhotos = 5;
     const answersInputs = [0,1,2,3];
-    console.log(photos)
 
     useEffect(() => {
         form.setFieldValue('photos',[]);
@@ -36,6 +35,7 @@ export default function Tests() {
                                       2:{text:'',isCorrect:false},
                                       3:{text:'',isCorrect:false}});
     },[]);
+    
     const onChangeAnswerText = (text:string,number:number) => {
         form.setFieldValue('answers',{...answers,[number]:{...answers[number],text}});
     }

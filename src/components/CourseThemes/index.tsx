@@ -1,4 +1,4 @@
-import { Button, Checkbox, Form, Input, Select, Table } from "antd";
+import { Button, Checkbox, Form, Input, Select, Space, Table } from "antd";
 import { ColumnsType, ColumnType, TablePaginationConfig } from "antd/es/table";
 import {ChangeItemForm } from "./ChangeForm";
 import { Container } from "./styles";
@@ -11,8 +11,8 @@ import { VideoLessonT } from "../../types/videoLesson";
 import { Link } from "react-router-dom";
 import { useCourseThemes } from "../../hooks/courseThemes";
 import { useSearchCourse } from "../../hooks/searchCourse";
+import {MinusCircleOutlined,PlusOutlined} from '@ant-design/icons';
 const {Option} = Select;
-
 
 
 export default function CourseThemes() {
@@ -36,11 +36,6 @@ export default function CourseThemes() {
         getCheckboxProps: (item: CourseThemeT) => ({...item}),
     };
     const columns:ColumnsType<CourseThemeT> = [
-        // {
-        //     title:'ID',
-        //     dataIndex:'id',
-        //     key:'id'
-        // },
         {
             title:'Name',
             dataIndex:'name',
@@ -131,6 +126,103 @@ export default function CourseThemes() {
                 >
                     <Input type={'number'} />
                 </Form.Item>
+                <Form.List name="videoLessons">
+                    {(fields, { add, remove }) => (
+                    <>
+                    {fields.map(({ key, name, ...restField }) => (
+                        <Space key={key} style={{ display: 'flex', flexDirection:'column',gap:'3px'}} >
+                        <Form.Item
+                            {...restField}
+                            name={[name, 'name']}
+                            rules={[{ required: true, message: 'Уведіть назву відео'}]}
+                        >
+                            <Input placeholder="Назва відео" />
+                        </Form.Item>
+                        <Form.Item
+                            {...restField}
+                            name={[name, 'videoURL']}
+                            rules={[{ required: true, message: 'Увведіть посилання на відео' }]}
+                        >
+                            <Input placeholder="Посилання на відео" />
+                        </Form.Item>
+                        <Form.Item
+                            {...restField}
+                            name={[name, 'description']}
+                            rules={[{ required: true, message: 'Уведіть опис відео' }]}
+                        >
+                            <Input.TextArea autoSize={true} placeholder="Опис відео"/>
+                        </Form.Item>
+                        <MinusCircleOutlined onClick={() => remove(name)} />
+                        </Space>
+                    ))}
+                    <Form.Item>
+                        <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                            Додати відео
+                        </Button>
+                    </Form.Item>
+                    </>
+                )}
+                </Form.List>
+                <Form.List name="tests">
+                    {(fields, { add, remove }) => (
+                    <>
+                    {fields.map(({ key, name, ...restField }) => (
+                        <Space key={key} style={{ display: 'flex', flexDirection:'column',gap:'3px'}} >
+                        <Form.Item
+                            {...restField}
+                            name={[name, 'name']}
+                            rules={[{ required: true, message: 'Уведіть назву тесту'}]}
+                        >
+                            <Input placeholder="Назва тесту" />
+                        </Form.Item>
+                        <Form.Item
+                            {...restField}
+                            name={[name, 'testURL']}
+                            rules={[{ required: true, message: 'Уведіть посилання на тест' }]}
+                        >
+                            <Input placeholder="Посилання на тест" />
+                        </Form.Item>
+                        <MinusCircleOutlined onClick={() => remove(name)} />
+                        </Space>
+                    ))}
+                    <Form.Item>
+                        <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                            Додати тест
+                        </Button>
+                    </Form.Item>
+                    </>
+                )}
+                </Form.List>
+                <Form.List name="studyMaterials">
+                    {(fields, { add, remove }) => (
+                    <>
+                    {fields.map(({ key, name, ...restField }) => (
+                        <Space key={key} style={{ display: 'flex', flexDirection:'column',gap:'3px'}} >
+                        <Form.Item
+                            {...restField}
+                            name={[name, 'name']}
+                            rules={[{ required: true, message: 'Уведіть назву учбового матеріалу'}]}
+                        >
+                            <Input placeholder="Назва учбового матеріалу" />
+                        </Form.Item>
+                        <Form.Item
+                            {...restField}
+                            name={[name, 'studyMaterialURL']}
+                            rules={[{ required: true, message: 'Увведіть посилання на учбовий матеріал'}]}
+                        >
+                            <Input placeholder="Посилання на учбовий матеріал" />
+                        </Form.Item>
+                        <MinusCircleOutlined onClick={() => remove(name)} />
+                        </Space>
+                    ))}
+                    <Form.Item>
+                        <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                            Додати учбовий матеріал
+                        </Button>
+                    </Form.Item>
+                    </>
+                )}
+                </Form.List>
                 <Form.Item
                     label="Активний"
                     name="isActive"

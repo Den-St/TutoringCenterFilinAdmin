@@ -1,0 +1,24 @@
+.quill{
+    border-radius: 10px 5px 10px 5px;
+}
+.quill{
+    border:none;
+    max-width: 1120px;
+    border:1px solid #d9d9d9;
+}
+.ql-editor{
+    height: 214px !important;
+}
+.quill:hover{
+    transition: 0.3s;
+    border:1px solid #4096ff !important;
+}
+.ql-snow{
+    border: none !important;
+}
+.ql-editor{
+    font-size: 16px;
+}
+.ql-blank::before{
+    font-style:normal !important;
+}
