@@ -3,7 +3,9 @@ import AboutUsSections from '../components/AboutUsSections';
 import Classes from '../components/Classes';
 import Courses from '../components/Courses';
 import CourseThemes from '../components/CourseThemes';
+import Events from '../components/Events';
 import { Login } from '../components/Login';
+import StudyMaterials from '../components/StudyMaterials';
 import Tests from '../components/Tests';
 import VideoLessons from '../components/VideoLessons';
 import { navRoutesType } from '../types/routes';
@@ -15,9 +17,11 @@ export const routes = {
     tests:'/tests',
     users:'/users',
     login:'/login',
-    aboutUsSections:'/aboutUsSections'
+    aboutUsSections:'/about-us-sections',
+    studyMaterials:'/study-materials',
+    events:'/events',
 }
-export type routesKeysType = 'classes' | 'courses' | 'courseThemes' | 'videoLessons' | 'tests' | 'users' | 'login' | 'aboutUsSections';
+export type routesKeysType = 'classes' | 'courses' | 'courseThemes' | 'videoLessons' | 'tests' | 'users' | 'login' | 'aboutUsSections' | 'studyMaterials' | 'events';
 
 const baseRoute = '/TutoringCenterFilinAdmin';
 const routeWrap = (route:string) => baseRoute + route;
@@ -29,11 +33,13 @@ export const wrappedRoutes:Record<routesKeysType,string>  = {
     tests:'',
     users:'',
     login:'',
-    aboutUsSections:''
+    aboutUsSections:'',
+    studyMaterials:'',
+    events:''
 };
 Object.keys(routes).forEach(key => wrappedRoutes[key as routesKeysType] = routeWrap(routes[key as routesKeysType]));
 
-export type adminNavRoutesKeysType = 'users' | 'classes' | 'courses' | 'courseThemes'  | 'aboutUsSections';//| 'tests' | 'videoLessons'
+export type adminNavRoutesKeysType = 'users' | 'classes' | 'courses' | 'courseThemes'  | 'aboutUsSections' | 'studyMaterials' | 'events';//| 'tests' | 'videoLessons'
 export const adminNavRoutes:Record<adminNavRoutesKeysType,navRoutesType> = {
     users:{
         title:'Користувачі',
@@ -50,6 +56,14 @@ export const adminNavRoutes:Record<adminNavRoutesKeysType,navRoutesType> = {
     courseThemes:{
         title:'Теми курсів',
         route:wrappedRoutes.courseThemes,
+    },
+    studyMaterials:{
+        title:'Посібники',
+        route:wrappedRoutes.studyMaterials,
+    },
+    events:{
+        title:'Події',
+        route:wrappedRoutes.events,
     },
     // videoLessons:{
     //     title:'Відео уроки',
@@ -74,6 +88,8 @@ export const PublicRoutes = [
     // <Route key={adminNavRoutes.videoLessons.route} element={<VideoLessons/>} path={adminNavRoutes.videoLessons.route}/>,
     // <Route key={adminNavRoutes.tests.route} element={<Tests/>} path={adminNavRoutes.tests.route}/>,
     <Route key={adminNavRoutes.aboutUsSections.route} element={<AboutUsSections/>} path={adminNavRoutes.aboutUsSections.route}/>,
+    <Route key={adminNavRoutes.studyMaterials.route} element={<StudyMaterials/>} path={adminNavRoutes.studyMaterials.route}/>,
+    <Route key={adminNavRoutes.events.route} element={<Events/>} path={adminNavRoutes.events.route}/>,
 
     // <Route key={routes.githubPage} element={<GitHubPages/>} path={routes.githubPage}/>,
 ]

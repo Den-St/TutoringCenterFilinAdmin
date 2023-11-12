@@ -115,7 +115,6 @@ export default function Tests() {
             render:(value) => <Checkbox checked={value} onChange={() => {}} />
         }
     ];
-    console.log('zxc',answers );
     console.log(photos)
     return <Container >
         <Table style={{width:'50%'}}
