@@ -7,6 +7,7 @@ import Events from '../components/Events';
 import { Login } from '../components/Login';
 import StudyMaterials from '../components/StudyMaterials';
 import Subjects from '../components/Subjects';
+import Tests from '../components/Tests';
 import { navRoutesType } from '../types/routes';
 
 export const routes = {
@@ -41,7 +42,7 @@ export const wrappedRoutes:Record<routesKeysType,string>  = {
 };
 Object.keys(routes).forEach(key => wrappedRoutes[key as routesKeysType] = routeWrap(routes[key as routesKeysType]));
 
-export type adminNavRoutesKeysType = 'users' | 'classes' | 'courses' | 'courseThemes'  | 'aboutUsSections' | 'studyMaterials' | 'events' | 'subjects';//| 'tests' | 'videoLessons'
+export type adminNavRoutesKeysType = 'users' | 'classes' | 'courses' | 'courseThemes'  | 'aboutUsSections' | 'studyMaterials' | 'events' | 'subjects' | 'tests';// | 'videoLessons'
 export const adminNavRoutes:Record<adminNavRoutesKeysType,navRoutesType> = {
     users:{
         title:'Користувачі',
@@ -75,10 +76,10 @@ export const adminNavRoutes:Record<adminNavRoutesKeysType,navRoutesType> = {
     //     title:'Відео уроки',
     //     route:wrappedRoutes.videoLessons,
     // },
-    // tests:{
-    //     title:'Тести',
-    //     route:wrappedRoutes.tests,
-    // },
+    tests:{
+        title:'Тести',
+        route:wrappedRoutes.tests,
+    },
     aboutUsSections:{
         title:'Розділи "Про нас"',
         route:wrappedRoutes.aboutUsSections,
@@ -91,7 +92,7 @@ export const PublicRoutes = [
     <Route key={adminNavRoutes.classes.route} element={<Classes/>} path={adminNavRoutes.classes.route}/>,
     <Route key={adminNavRoutes.courses.route} element={<Courses/>} path={adminNavRoutes.courses.route}/>,
     <Route key={adminNavRoutes.courseThemes.route} element={<CourseThemes/>} path={adminNavRoutes.courseThemes.route}/>,
-    // <Route key={adminNavRoutes.tests.route} element={<Tests/>} path={adminNavRoutes.tests.route}/>,
+    <Route key={adminNavRoutes.tests.route} element={<Tests/>} path={adminNavRoutes.tests.route}/>,
     <Route key={adminNavRoutes.aboutUsSections.route} element={<AboutUsSections/>} path={adminNavRoutes.aboutUsSections.route}/>,
     <Route key={adminNavRoutes.studyMaterials.route} element={<StudyMaterials/>} path={adminNavRoutes.studyMaterials.route}/>,
     <Route key={adminNavRoutes.events.route} element={<Events/>} path={adminNavRoutes.events.route}/>,

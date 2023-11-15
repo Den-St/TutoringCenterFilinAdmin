@@ -13,10 +13,12 @@ import { useCourseThemes } from "../../hooks/courseThemes";
 import { useSearchCourse } from "../../hooks/searchCourse";
 import {MinusCircleOutlined,PlusOutlined} from '@ant-design/icons';
 import { SubjectT } from "../../types/subject";
+import { useTests } from "../../hooks/tests";
+import { TestProductT } from "../../types/tests";
 const {Option} = Select;
 
-export default function CourseThemes() {
-    const {loading,onChangePagination,items,refetch,count,pagination,onChangeItem,onCreateItem,onRowEnter,pickedItem,onChangeCourse,chosenCourse,debounceSearch} = useCourseThemes();
+export default function Tests() {
+    const {loading,onChangePagination,items,refetch,count,pagination,onChangeItem,onCreateItem,onRowEnter,pickedItem,onChangeCourse,chosenCourse,debounceSearch} = useTests();
     const {debounceSearchClass,coursesItems,classSearchLoading} = useSearchCourse();
 
     const paginationConfig:TablePaginationConfig = {
@@ -30,14 +32,14 @@ export default function CourseThemes() {
         showPrevNextJumpers:true
     }
     const rowSelection = {
-        onChange: (selectedRowKeys: React.Key[], selectedRows: CourseThemeT[]) => {
+        onChange: (selectedRowKeys: React.Key[], selectedRows: TestProductT[]) => {
             onRowEnter(selectedRows[0]);
         },
-        getCheckboxProps: (item: CourseThemeT) => ({...item}),
+        getCheckboxProps: (item: TestProductT) => ({...item}),
     };
-    const columns:ColumnsType<CourseThemeT> = [
+    const columns:ColumnsType<TestProductT> = [
         {
-            title:'Name',
+            title:'Назва',
             dataIndex:'name',
             key:'name',
             filterDropdown:() => {
@@ -45,17 +47,17 @@ export default function CourseThemes() {
             }
         },
         {
-            title:'Price',
+            title:'Ціна',
             dataIndex:'price',
             key:'price'
         },
         {
-            title:'Subscription duration',
+            title:'Тривалість підписки',
             dataIndex:'subscriptionDuration',
             key:'subscriptionDuration'
         },
         {
-            title:'Course',
+            title:'Назва курсу',
             dataIndex:'course',
             key:'course',
             render:(value:CourseT) => value?.secondName
@@ -67,13 +69,13 @@ export default function CourseThemes() {
             render:(value:SubjectT) => value?.name
         },
         {
-            title:'Created at',
+            title:'Створено',
             dataIndex:'createdAt',
             key:'createdAt',
             render:(value:Timestamp) => value?.toDate()?.toLocaleString()
         },
         {
-            title:'Is active',
+            title:'Активний?',
             dataIndex:'isActive',
             key:'isActive',
             render:(value) => <Checkbox checked={value} onChange={() => {}} />
@@ -91,7 +93,7 @@ export default function CourseThemes() {
             loading={loading.items} pagination={paginationConfig}/>
         <FormsContainer>
             <Form onFinish={onCreateItem} autoComplete={'off'}>
-                <Title level={4}>Створити тему</Title>
+                <Title level={4}>Створити тест</Title>
                 <Form.Item
                     label="Курс"
                     name="course"
@@ -132,43 +134,6 @@ export default function CourseThemes() {
                 >
                     <Input type={'number'} />
                 </Form.Item>
-                <Form.List name="videoLessons">
-                    {(fields, { add, remove }) => (
-                    <>
-                    {fields.map(({ key, name, ...restField }) => (
-                        <Space key={key} style={{ display: 'flex', flexDirection:'column',gap:'3px'}} >
-                        <Form.Item
-                            {...restField}
-                            name={[name, 'name']}
-                            rules={[{ required: true, message: 'Уведіть назву відео'}]}
-                        >
-                            <Input placeholder="Назва відео" />
-                        </Form.Item>
-                        <Form.Item
-                            {...restField}
-                            name={[name, 'videoURL']}
-                            rules={[{ required: true, message: 'Увведіть посилання на відео' }]}
-                        >
-                            <Input placeholder="Посилання на відео" />
-                        </Form.Item>
-                        <Form.Item
-                            {...restField}
-                            name={[name, 'description']}
-                            rules={[{ required: true, message: 'Уведіть опис відео' }]}
-                        >
-                            <Input.TextArea autoSize={true} placeholder="Опис відео"/>
-                        </Form.Item>
-                        <MinusCircleOutlined onClick={() => remove(name)} />
-                        </Space>
-                    ))}
-                    <Form.Item>
-                        <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
-                            Додати відео
-                        </Button>
-                    </Form.Item>
-                    </>
-                )}
-                </Form.List>
                 <Form.List name="tests">
                     {(fields, { add, remove }) => (
                     <>
@@ -188,42 +153,21 @@ export default function CourseThemes() {
                         >
                             <Input placeholder="Посилання на тест" />
                         </Form.Item>
+                        <Form.Item
+                            {...restField}
+                            name={[name, 'isFree']}
+                            label={'Безкоштовний'}
+                            initialValue={false}
+                            rules={[{ required: true, message: 'Чи тест платний?' }]}
+                        >
+                            <Checkbox defaultChecked={false}/>
+                        </Form.Item>
                         <MinusCircleOutlined onClick={() => remove(name)} />
                         </Space>
                     ))}
                     <Form.Item>
                         <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
                             Додати тест
-                        </Button>
-                    </Form.Item>
-                    </>
-                )}
-                </Form.List>
-                <Form.List name="documents">
-                    {(fields, { add, remove }) => (
-                    <>
-                    {fields.map(({ key, name, ...restField }) => (
-                        <Space key={key} style={{ display: 'flex', flexDirection:'column',gap:'3px'}} >
-                        <Form.Item
-                            {...restField}
-                            name={[name, 'name']}
-                            rules={[{ required: true, message: 'Уведіть назву учбового матеріалу'}]}
-                        >
-                            <Input placeholder="Назва учбового матеріалу" />
-                        </Form.Item>
-                        <Form.Item
-                            {...restField}
-                            name={[name, 'documentURL']}
-                            rules={[{ required: true, message: 'Увведіть посилання на учбовий матеріал'}]}
-                        >
-                            <Input placeholder="Посилання на учбовий матеріал" />
-                        </Form.Item>
-                        <MinusCircleOutlined onClick={() => remove(name)} />
-                        </Space>
-                    ))}
-                    <Form.Item>
-                        <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
-                            Додати учбовий матеріал
                         </Button>
                     </Form.Item>
                     </>
