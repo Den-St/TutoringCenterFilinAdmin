@@ -12,8 +12,8 @@ import { Link } from "react-router-dom";
 import { useCourseThemes } from "../../hooks/courseThemes";
 import { useSearchCourse } from "../../hooks/searchCourse";
 import {MinusCircleOutlined,PlusOutlined} from '@ant-design/icons';
+import { SubjectT } from "../../types/subject";
 const {Option} = Select;
-
 
 export default function CourseThemes() {
     const {loading,onChangePagination,items,refetch,count,pagination,onChangeItem,onCreateItem,onRowEnter,pickedItem,onChangeCourse,chosenCourse,debounceSearch} = useCourseThemes();
@@ -59,6 +59,12 @@ export default function CourseThemes() {
             dataIndex:'course',
             key:'course',
             render:(value:CourseT) => value?.secondName
+        },
+        {
+            title:'Назва предмету',
+            dataIndex:'subject',
+            key:'subject',
+            render:(value:SubjectT) => value?.name
         },
         {
             title:'Created at',
@@ -193,7 +199,7 @@ export default function CourseThemes() {
                     </>
                 )}
                 </Form.List>
-                <Form.List name="studyMaterials">
+                <Form.List name="documents">
                     {(fields, { add, remove }) => (
                     <>
                     {fields.map(({ key, name, ...restField }) => (
@@ -207,7 +213,7 @@ export default function CourseThemes() {
                         </Form.Item>
                         <Form.Item
                             {...restField}
-                            name={[name, 'studyMaterialURL']}
+                            name={[name, 'documentURL']}
                             rules={[{ required: true, message: 'Увведіть посилання на учбовий матеріал'}]}
                         >
                             <Input placeholder="Посилання на учбовий матеріал" />

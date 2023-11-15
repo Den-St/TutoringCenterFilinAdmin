@@ -6,9 +6,9 @@ import CourseThemes from '../components/CourseThemes';
 import Events from '../components/Events';
 import { Login } from '../components/Login';
 import StudyMaterials from '../components/StudyMaterials';
-import Tests from '../components/Tests';
-import VideoLessons from '../components/VideoLessons';
+import Subjects from '../components/Subjects';
 import { navRoutesType } from '../types/routes';
+
 export const routes = {
     classes:'/classes',
     courses:'/courses',
@@ -20,8 +20,9 @@ export const routes = {
     aboutUsSections:'/about-us-sections',
     studyMaterials:'/study-materials',
     events:'/events',
+    subjects:'/subjects',
 }
-export type routesKeysType = 'classes' | 'courses' | 'courseThemes' | 'videoLessons' | 'tests' | 'users' | 'login' | 'aboutUsSections' | 'studyMaterials' | 'events';
+export type routesKeysType = 'classes' | 'courses' | 'courseThemes' | 'videoLessons' | 'tests' | 'users' | 'login' | 'aboutUsSections' | 'studyMaterials' | 'events' | 'subjects';
 
 const baseRoute = '/TutoringCenterFilinAdmin';
 const routeWrap = (route:string) => baseRoute + route;
@@ -35,11 +36,12 @@ export const wrappedRoutes:Record<routesKeysType,string>  = {
     login:'',
     aboutUsSections:'',
     studyMaterials:'',
-    events:''
+    events:'',
+    subjects:''
 };
 Object.keys(routes).forEach(key => wrappedRoutes[key as routesKeysType] = routeWrap(routes[key as routesKeysType]));
 
-export type adminNavRoutesKeysType = 'users' | 'classes' | 'courses' | 'courseThemes'  | 'aboutUsSections' | 'studyMaterials' | 'events';//| 'tests' | 'videoLessons'
+export type adminNavRoutesKeysType = 'users' | 'classes' | 'courses' | 'courseThemes'  | 'aboutUsSections' | 'studyMaterials' | 'events' | 'subjects';//| 'tests' | 'videoLessons'
 export const adminNavRoutes:Record<adminNavRoutesKeysType,navRoutesType> = {
     users:{
         title:'Користувачі',
@@ -65,6 +67,10 @@ export const adminNavRoutes:Record<adminNavRoutesKeysType,navRoutesType> = {
         title:'Події',
         route:wrappedRoutes.events,
     },
+    subjects:{
+        title:'Предмети',
+        route:wrappedRoutes.subjects,
+    },
     // videoLessons:{
     //     title:'Відео уроки',
     //     route:wrappedRoutes.videoLessons,
@@ -85,11 +91,11 @@ export const PublicRoutes = [
     <Route key={adminNavRoutes.classes.route} element={<Classes/>} path={adminNavRoutes.classes.route}/>,
     <Route key={adminNavRoutes.courses.route} element={<Courses/>} path={adminNavRoutes.courses.route}/>,
     <Route key={adminNavRoutes.courseThemes.route} element={<CourseThemes/>} path={adminNavRoutes.courseThemes.route}/>,
-    // <Route key={adminNavRoutes.videoLessons.route} element={<VideoLessons/>} path={adminNavRoutes.videoLessons.route}/>,
     // <Route key={adminNavRoutes.tests.route} element={<Tests/>} path={adminNavRoutes.tests.route}/>,
     <Route key={adminNavRoutes.aboutUsSections.route} element={<AboutUsSections/>} path={adminNavRoutes.aboutUsSections.route}/>,
     <Route key={adminNavRoutes.studyMaterials.route} element={<StudyMaterials/>} path={adminNavRoutes.studyMaterials.route}/>,
     <Route key={adminNavRoutes.events.route} element={<Events/>} path={adminNavRoutes.events.route}/>,
+    <Route key={adminNavRoutes.subjects.route} element={<Subjects/>} path={adminNavRoutes.subjects.route}/>,
 
     // <Route key={routes.githubPage} element={<GitHubPages/>} path={routes.githubPage}/>,
 ]

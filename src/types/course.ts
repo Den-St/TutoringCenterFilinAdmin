@@ -1,3 +1,4 @@
+import { SubjectT } from './subject';
 import { Timestamp } from 'firebase/firestore';
 import { ClassT } from './class';
 
@@ -9,6 +10,7 @@ export type CourseT = {
     secondName:string
     createdAt:Timestamp
     isActive:boolean
+    subject:SubjectT
 }
 
 export type CreateCourseT = {
@@ -18,6 +20,7 @@ export type CreateCourseT = {
     secondName:string
     createdAt:Date
     isActive:boolean
+    subject:string
 }
 
 export type ChangeCourseT = {
@@ -27,4 +30,5 @@ export type ChangeCourseT = {
     secondName:string
     isActive:boolean
     createdAt:Date
+    subject:string
 }

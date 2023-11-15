@@ -9,13 +9,17 @@ import { useSearchClass } from "../../hooks/searchClassNumber";
 import { Timestamp } from "firebase/firestore";
 import Title from "antd/es/typography/Title";
 import { FormsContainer } from "../Classes/styles";
+import { useSearchSubject } from "../../hooks/searchSubject";
+import { SubjectT } from "../../types/subject";
 const {Option} = Select;
 
 
 export default function Courses() {
-    const {loading,onChangePagination,items,refetch,count,pagination,onChangeItem,onCreateItem,onRowEnter,pickedItem,onChangeClass,chosenClass,debounceSearch} = useCourses();
+    const {loading,onChangePagination,items,refetch,count,pagination,onChangeItem,onCreateItem,
+           onRowEnter,pickedItem,onChangeClass,chosenClass,debounceSearch,chosenSubject,onChangeSubject} = useCourses();
     const {debounceSearchClass,classesItems,classSearchLoading} = useSearchClass();
- 
+    const {debounceSearchSubject,subjectsItems,subjectSearchLoading} = useSearchSubject();
+        console.log('ite,s',items)
     const paginationConfig:TablePaginationConfig = {
         onChange: onChangePagination,
         total:count,
@@ -64,6 +68,12 @@ export default function Courses() {
             render:(value:ClassT) => value?.number
         },
         {
+            title:'Назва предмету',
+            dataIndex:'subject',
+            key:'subject',
+            render:(value:SubjectT) => value?.name
+        },
+        {
             title:'Створено',
             dataIndex:'createdAt',
             key:'createdAt',
@@ -108,6 +118,25 @@ export default function Courses() {
                     </Select>  
                 </Form.Item>
                 <Form.Item
+                    label="Назва предмету"
+                    name="subject"
+                    rules={[{ required: true, message: 'Оберіть предмет!' }]}
+                >
+                        <Select 
+                        onSearch={debounceSearchSubject}
+                        showSearch={true}
+                        loading={subjectSearchLoading}
+                        value={chosenSubject ? JSON.stringify(chosenSubject) : ''}
+                        onChange={onChangeSubject}
+                        >
+                            {subjectsItems && subjectsItems.map(subjectItem => 
+                                <Option key={subjectItem.id} value={JSON.stringify(subjectItem)}>
+                                    {subjectItem.name}
+                                </Option>
+                            )}
+                    </Select>  
+                </Form.Item>
+                <Form.Item
                     label="Опис"
                     name="description"
                     rules={[{ required: true, message: 'Введіть опис курсу!' }]}
@@ -141,7 +170,9 @@ export default function Courses() {
                     </Button>
                 </Form.Item>
             </Form>
-            <ChangeItemForm onChangeClass={onChangeClass} chosenClass={chosenClass} pickedItem={pickedItem} onChangeItem={onChangeItem}/>
+            <ChangeItemForm chosenSubject={chosenSubject} onChangeSubject={onChangeSubject}
+                            onChangeClass={onChangeClass} chosenClass={chosenClass} pickedItem={pickedItem}
+                            onChangeItem={onChangeItem}/>
         </FormsContainer>
     </Container>
 }

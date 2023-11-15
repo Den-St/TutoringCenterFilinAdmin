@@ -9,7 +9,9 @@ export enum collectionsKeys {
     videoLessons = "videoLessons",
     tests = "tests",
     aboutUsSections = "aboutUsSections",
-    events = "events"
+    events = "events",
+    studyMaterials = "studyMaterials",
+    subjects = "subjects",
 };
 
 export const classesCollection = collection(db,collectionsKeys.classes);
@@ -20,3 +22,5 @@ export const videoLessonsCollection = collection(db,collectionsKeys.videoLessons
 export const testsCollection = collection(db,collectionsKeys.tests);
 export const aboutUsSectionCollection = collection(db,collectionsKeys.aboutUsSections);
 export const eventsCollection = collection(db,collectionsKeys.events);
+export const studyMaterialsCollection = collection(db,collectionsKeys.studyMaterials);
+export const subjectsCollection = collection(db,collectionsKeys.subjects);

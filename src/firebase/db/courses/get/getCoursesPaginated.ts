@@ -1,3 +1,4 @@
+import { getSubjectById } from './../../subjects/get/getSubjectById';
 import { getClassById } from './../../classes/get/getClassById';
 import { collectionsKeys, coursesCollection } from '../../collectionsKeys';
 import { query, startAt, limit, getDocs, orderBy, getCountFromServer, collection, where } from "firebase/firestore"
@@ -23,10 +24,13 @@ export const getCoursesPaginated = async (paginationData:PaginationType,shortNam
     const courses = docs.docs.map(doc => doc.data());
     const classesQ = courses.map(async course => await getClassById(course.class));
     const classes = await Promise.all(classesQ);
+    const subjectsQ = courses.map(async course => await getSubjectById(course.subject));
+    const subjects = await Promise.all(subjectsQ);
 
     docs.docs.forEach((doc,i) => {
         courses[i].id = doc.id;
         courses[i].class = classes[i];
+        courses[i].subject = subjects[i];
     });
     
     return {courses:courses as CourseT[],count:countSnapshot.data().count};

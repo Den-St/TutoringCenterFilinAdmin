@@ -1,13 +1,14 @@
 import { doc, setDoc } from "firebase/firestore";
-import { ChangeTestT } from "../../../../types/test";
+import { ChangeSubjectT } from "../../../../types/subject";
 import { db } from "../../../initializeFirebase";
 import { collectionsKeys } from "../../collectionsKeys";
 
-export const changeTest= async (id:string,newData:ChangeTestT) => {
+export const changeSubject = async (id:string,newData:ChangeSubjectT) => {
     try{
-        const ref = doc(db,collectionsKeys.tests,id);
+        const ref = doc(db,collectionsKeys.subjects,id);
         await setDoc(ref,{
-            ...newData
+            ...newData,
+            createdAt:new Date()
         });
     }catch(err){
         console.error(err);

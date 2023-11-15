@@ -1,19 +1,10 @@
+import { SubjectT } from './subject';
 import { CourseT } from './course';
+import { DocumentT } from './document';
+import { TestT } from './test';
 import { VideoLessonT } from './videoLesson';
 
-type videoLessonT = {
-    name:string,
-    videoURL:string,
-    description:string
-}
-type ThemeTestT = {
-    name:string,
-    testURl:string,
-}
-type ThemeStudyMaterialT = {
-    name:string,
-    studyMaterialURL:string
-}
+
 export type CourseThemeT = {
     id:string
     course:CourseT
@@ -21,9 +12,10 @@ export type CourseThemeT = {
     subscriptionDuration:number
     price:number,
     isActive:boolean,
-    videoLessons:Record<number,videoLessonT>[],
-    tests:Record<number,ThemeTestT>[],
-    studyMaterials:Record<number,ThemeStudyMaterialT>[]
+    videoLessons:Record<number,VideoLessonT>[],
+    tests:Record<number,TestT>[],
+    documents:Record<number,DocumentT>[]
+    subject:SubjectT
 }
 
 export type CreateCourseThemeT = {
@@ -32,9 +24,10 @@ export type CreateCourseThemeT = {
     subscriptionDuration:number
     price:number
     isActive:boolean,
-    videoLessons:Record<number,videoLessonT>[]
-    tests:Record<number,ThemeTestT>[],
-    studyMaterials:Record<number,ThemeStudyMaterialT>[]
+    videoLessons:Record<number,VideoLessonT>[]
+    tests:Record<number,TestT>[],
+    documents:Record<number,DocumentT>[]
+    subject:string
 }
 
 export type ChangeCourseThemeT = {
@@ -43,9 +36,10 @@ export type ChangeCourseThemeT = {
     subscriptionDuration:number
     price:number
     isActive:boolean
-    videoLessons:Record<number,videoLessonT>[]
-    tests:Record<number,ThemeTestT>[],
-    studyMaterials:Record<number,ThemeStudyMaterialT>[]
+    videoLessons:Record<number,VideoLessonT>[]
+    tests:Record<number,TestT>[],
+    documents:Record<number,DocumentT>[]
+    subject:string
 }
 export type ChangeCourseThemeWithCourseT = {
     course:CourseT
@@ -53,7 +47,7 @@ export type ChangeCourseThemeWithCourseT = {
     subscriptionDuration:number
     price:number
     isActive:boolean
-    videoLessons:Record<number,videoLessonT>[]
-    tests:Record<number,ThemeTestT>[],
-    studyMaterials:Record<number,ThemeStudyMaterialT>[]
+    videoLessons:Record<number,VideoLessonT>[]
+    tests:Record<number,TestT>[],
+    documents:Record<number,DocumentT>[]
 }

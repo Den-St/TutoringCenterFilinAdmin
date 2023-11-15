@@ -12,12 +12,20 @@ import { Link } from "react-router-dom";
 import { useCourseThemes } from "../../hooks/courseThemes";
 import { useSearchCourse } from "../../hooks/searchCourse";
 import {MinusCircleOutlined,PlusOutlined} from '@ant-design/icons';
+import { useStudyMaterials } from "../../hooks/studyMaterials";
+import { CreateStudyMaterialFormT, StudyMaterialT } from "../../types/studyMaterial";
+import { ClassT } from "../../types/class";
+import { useSearchClass } from "../../hooks/searchClassNumber";
+import ReactQuill from "react-quill";
+import { useEffect } from "react";
 const {Option} = Select;
 
 
 export default function StudyMaterials() {
-    const {loading,onChangePagination,items,refetch,count,pagination,onChangeItem,onCreateItem,onRowEnter,pickedItem,onChangeCourse,chosenCourse,debounceSearch} = useCourseThemes();
-    const {debounceSearchClass,coursesItems,classSearchLoading} = useSearchCourse();
+    const {loading,onChangePagination,items,refetch,count,pagination,onChangeItem,onCreateItem,onRowEnter,pickedItem,debounceSearch,chosenClass,onChangeClass,} = useStudyMaterials();
+    const {debounceSearchClass,classesItems,classSearchLoading} = useSearchClass();
+    const [form] = Form.useForm<CreateStudyMaterialFormT>();
+    const description = Form.useWatch('description',form);
 
     const paginationConfig:TablePaginationConfig = {
         onChange: onChangePagination,
@@ -30,14 +38,14 @@ export default function StudyMaterials() {
         showPrevNextJumpers:true
     }
     const rowSelection = {
-        onChange: (selectedRowKeys: React.Key[], selectedRows: CourseThemeT[]) => {
+        onChange: (selectedRowKeys: React.Key[], selectedRows: StudyMaterialT[]) => {
             onRowEnter(selectedRows[0]);
         },
-        getCheckboxProps: (item: CourseThemeT) => ({...item}),
+        getCheckboxProps: (item: StudyMaterialT) => ({...item}),
     };
-    const columns:ColumnsType<CourseThemeT> = [
+    const columns:ColumnsType<StudyMaterialT> = [
         {
-            title:'Name',
+            title:'Назва',
             dataIndex:'name',
             key:'name',
             filterDropdown:() => {
@@ -45,34 +53,47 @@ export default function StudyMaterials() {
             }
         },
         {
-            title:'Price',
+            title:'Ціна',
             dataIndex:'price',
             key:'price'
         },
         {
-            title:'Subscription duration',
+            title:'Тривалість підписки',
             dataIndex:'subscriptionDuration',
             key:'subscriptionDuration'
         },
         {
-            title:'Course',
-            dataIndex:'course',
-            key:'course',
-            render:(value:CourseT) => value?.secondName
+            title:'Опис',
+            dataIndex:'description',
+            key:'description',
+            render:(value:string) => <div style={{'maxHeight':'100px',overflow:'scroll'}} dangerouslySetInnerHTML={{__html:value}}/>
         },
         {
-            title:'Created at',
+            title:'Клас',
+            dataIndex:'class',
+            key:'class',
+            render:(value:ClassT) => value?.number
+        },
+        {
+            title:'Створено',
             dataIndex:'createdAt',
             key:'createdAt',
             render:(value:Timestamp) => value?.toDate()?.toLocaleString()
         },
         {
-            title:'Is active',
+            title:'Активний?',
             dataIndex:'isActive',
             key:'isActive',
             render:(value) => <Checkbox checked={value} onChange={() => {}} />
         }
     ];
+    useEffect(() => {
+        form.setFieldValue('description','');
+    },[])
+    const onChangeDescription = (value?:string) => {
+        form.setFieldValue('description',value);
+        console.log(description)
+    }
     console.log(items)
     return <Container >
         <Table style={{width:'50%'}}
@@ -84,26 +105,26 @@ export default function StudyMaterials() {
             dataSource={items.map(item => ({...item,key:item.id}))}
             loading={loading.items} pagination={paginationConfig}/>
         <FormsContainer>
-            <Form onFinish={onCreateItem} autoComplete={'off'}>
-                <Title level={4}>Створити тему</Title>
+            <Form onFinish={onCreateItem} form={form} autoComplete={'off'}>
+                <Title level={4}>Створити посібник</Title>
                 <Form.Item
-                    label="Курс"
-                    name="course"
-                    rules={[{ required: true, message: 'Оберіть курс!' }]}
+                    label="Номер класу"
+                    name="class"
+                    rules={[{ required: true, message: 'Оберіть клас!' }]}
                 >
-                    <Select 
+                      <Select 
                         onSearch={debounceSearchClass}
                         showSearch={true}
                         loading={classSearchLoading}
-                        value={chosenCourse ? JSON.stringify(chosenCourse) : ''}
-                        onChange={onChangeCourse}
+                        value={chosenClass ? JSON.stringify(chosenClass) : ''}
+                        onChange={onChangeClass}
                         >
-                            {coursesItems && coursesItems.map(courseItem => 
-                                <Option key={courseItem.id} value={JSON.stringify(courseItem)}>
-                                    {courseItem.secondName}
+                            {classesItems && classesItems.map(classItem => 
+                                <Option key={classItem.id} value={JSON.stringify(classItem)}>
+                                    {classItem.number}
                                 </Option>
                             )}
-                    </Select>   
+                    </Select>  
                 </Form.Item>
                 <Form.Item
                     label="Назва"
@@ -126,6 +147,13 @@ export default function StudyMaterials() {
                 >
                     <Input type={'number'} />
                 </Form.Item>
+                <Form.Item
+                    label='Опис'
+                    name='description'
+                >
+                </Form.Item>
+                <ReactQuill onChange={onChangeDescription} value={description} placeholder='Введіть опис'/>
+
                 <Form.List name="videoLessons">
                     {(fields, { add, remove }) => (
                     <>
@@ -193,7 +221,7 @@ export default function StudyMaterials() {
                     </>
                 )}
                 </Form.List>
-                <Form.List name="studyMaterials">
+                <Form.List name="documents">
                     {(fields, { add, remove }) => (
                     <>
                     {fields.map(({ key, name, ...restField }) => (
@@ -207,7 +235,7 @@ export default function StudyMaterials() {
                         </Form.Item>
                         <Form.Item
                             {...restField}
-                            name={[name, 'studyMaterialURL']}
+                            name={[name, 'documentURL']}
                             rules={[{ required: true, message: 'Увведіть посилання на учбовий матеріал'}]}
                         >
                             <Input placeholder="Посилання на учбовий матеріал" />
@@ -217,14 +245,49 @@ export default function StudyMaterials() {
                     ))}
                     <Form.Item>
                         <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
-                            Додати учбовий матеріал
+                            Додати документ
                         </Button>
                     </Form.Item>
                     </>
                 )}
                 </Form.List>
+                {/* <Form.List name="themes">
+                    {(fields, { add, remove }) => (
+                    <>
+                    {fields.map(({ key, name, ...restField }) => (
+                        <Space key={key} style={{ display: 'flex', flexDirection:'column',gap:'3px'}} >
+                        <Form.Item
+                            {...restField}
+                            name={[name, 'name']}
+                            rules={[{ required: true, message: 'Уведіть назву теми'}]}
+                        >
+                            <Input placeholder="Назва теми" />
+                        </Form.Item>
+                        <MinusCircleOutlined onClick={() => remove(name)} />
+                        </Space>
+                    ))}
+                    <Form.Item>
+                        <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                            Додати документ
+                        </Button>
+                    </Form.Item>
+                    </>
+                )}
+                </Form.List> */}
                 <Form.Item
-                    label="Активний"
+                    label="Теми"
+                    name="themes">
+                    <Input placeholder="Теми"/>
+                </Form.Item>
+                <Form.Item
+                    label="Для вчителя?"
+                    name="forTeacher"
+                    valuePropName="checked"
+                >
+                    <Checkbox/>
+                </Form.Item>
+                <Form.Item
+                    label="Активний?"
                     name="isActive"
                     valuePropName="checked"
                 >
@@ -236,7 +299,7 @@ export default function StudyMaterials() {
                     </Button>
                 </Form.Item>
             </Form>
-            <ChangeItemForm chosenCourse={chosenCourse} onChangeCourse={onChangeCourse} pickedItem={pickedItem} onChangeItem={onChangeItem}/>
+            <ChangeItemForm chosenClass={chosenClass} onChangeClass={onChangeClass} pickedItem={pickedItem} onChangeItem={onChangeItem}/>
         </FormsContainer>
     </Container>
 }

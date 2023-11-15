@@ -4,7 +4,7 @@ import { classesCollection } from '../../collectionsKeys';
 
 export const createClass = async (data:CreateClassType) => {
     try{
-        await addDoc(classesCollection,{...data,number:+data.number});
+        await addDoc(classesCollection,{...data,number:+data.number,createdAt:new Date()});
     }catch(err){
         console.error(err);
     }

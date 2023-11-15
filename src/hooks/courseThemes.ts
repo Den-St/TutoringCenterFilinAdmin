@@ -44,7 +44,7 @@ export const useCourseThemes = () => {
         console.log(data);
         if(!chosenCourse) return;
         setLoading(prev => ({...prev,create:true}));
-        await createCourseTheme({...data,course:chosenCourse.id});
+        await createCourseTheme({...data,course:chosenCourse.id,subject:chosenCourse.subject.id});
         setLoading(prev => ({...prev,create:false}));
 
         setLoading(prev => ({...prev,items:true}));
@@ -54,7 +54,7 @@ export const useCourseThemes = () => {
     const onChangeItem = async (data:ChangeCourseThemeT) => {
         if(!pickedItem?.id || !chosenCourse) return;
         setLoading(prev => ({...prev,create:true}));
-        await changeCourseTheme(pickedItem?.id,{...data,course:chosenCourse.id});
+        await changeCourseTheme(pickedItem?.id,{...data,course:chosenCourse.id,subject:chosenCourse.subject.id});
         setLoading(prev => ({...prev,create:false}));
 
         setLoading(prev => ({...prev,classes:true}));

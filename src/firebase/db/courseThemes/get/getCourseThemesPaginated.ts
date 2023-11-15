@@ -4,6 +4,7 @@ import { PaginationType } from '../../../../types/pagination';
 import { db } from '../../../initializeFirebase';
 import { getCourseById } from '../../courses/get/getCourseById';
 import { CourseThemeT } from '../../../../types/courseThemes';
+import { getSubjectById } from '../../subjects/get/getSubjectById';
 
 export const getCourseThemesPaginated = async (paginationData:PaginationType,name?:string) => {
     const q = name ? query(courseThemesCollection,orderBy('name','desc'),
@@ -22,10 +23,13 @@ export const getCourseThemesPaginated = async (paginationData:PaginationType,nam
     const courseThemes = docs.docs.map(doc => doc.data());
     const coursesQ = courseThemes.map(async courseTheme => await getCourseById(courseTheme.course));
     const courses = await Promise.all(coursesQ);
-
-    docs.docs.forEach((doc,i) => {
-        courseThemes[i].id = doc.id;
-        courseThemes[i].course = courses[i];
+    const subjectsQ = courseThemes.map(async theme => await getSubjectById(theme.subject));
+    const subjects = await Promise.all(subjectsQ);
+    
+    courseThemes.forEach((theme,i) => {
+        theme.id = docs.docs[i].id;
+        theme.course = courses[i];
+        theme.subject = subjects[i];
     });
     
     return {courseThemes:courseThemes as CourseThemeT[],count:countSnapshot.data().count};

@@ -1,7 +1,7 @@
 import { Button, Carousel, Checkbox, Form, Input, Select, Space, Table,Image } from "antd";
 import { ColumnsType, ColumnType, TablePaginationConfig } from "antd/es/table";
 import {ChangeItemForm } from "./ChangeForm";
-import { Container, ImageContainer, PhotosInput, PhotosInputContainer, RemovePhotoButton } from "./styles";
+import { CarouselContainer, Container, ImageContainer, PhotosInput, PhotosInputContainer, RemovePhotoButton } from "./styles";
 import { CourseT } from "../../types/course";
 import { Timestamp } from "firebase/firestore";
 import Title from "antd/es/typography/Title";
@@ -14,7 +14,6 @@ import { useSearchCourse } from "../../hooks/searchCourse";
 import {MinusCircleOutlined,PlusOutlined,CloseCircleOutlined,UploadOutlined} from '@ant-design/icons';
 import { useEvents } from "../../hooks/events";
 import { CreateEventFormT, CreateEventT, EventT } from "../../types/event";
-import { CarouselContainer } from "../Tests/styles";
 import { useEffect } from "react";
 
 export default function Events() {

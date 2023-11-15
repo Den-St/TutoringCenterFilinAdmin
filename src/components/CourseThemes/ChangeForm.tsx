@@ -20,12 +20,12 @@ export const ChangeItemForm:React.FC<Props> = ({onChangeItem,pickedItem,chosenCo
 
     useEffect(() => {
         if(!pickedItem) return;
-        form.setFieldsValue({...pickedItem,course:JSON.stringify(pickedItem?.course)});
+        form.setFieldsValue({...pickedItem,course:JSON.stringify(pickedItem?.course),subject:pickedItem.course.subject.id});
         onChangeCourse(JSON.stringify(pickedItem?.course));
     },[pickedItem]);
 
     return <Form onFinish={onChangeItem} form={form} disabled={!pickedItem} autoComplete={'off'}>
-        <Title level={4}>Change theme</Title>
+        <Title level={4}>Змінити тему</Title>
         <Form.Item
             label="Курс"
             name="course"
