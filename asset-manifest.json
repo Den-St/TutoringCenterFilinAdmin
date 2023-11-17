@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/TutoringCenterFilinAdmin/static/css/main.b64f3caa.css",
-    "main.js": "/TutoringCenterFilinAdmin/static/js/main.28e028df.js",
+    "main.js": "/TutoringCenterFilinAdmin/static/js/main.43123140.js",
     "index.html": "/TutoringCenterFilinAdmin/index.html",
     "main.b64f3caa.css.map": "/TutoringCenterFilinAdmin/static/css/main.b64f3caa.css.map",
-    "main.28e028df.js.map": "/TutoringCenterFilinAdmin/static/js/main.28e028df.js.map"
+    "main.43123140.js.map": "/TutoringCenterFilinAdmin/static/js/main.43123140.js.map"
   },
   "entrypoints": [
     "static/css/main.b64f3caa.css",
-    "static/js/main.28e028df.js"
+    "static/js/main.43123140.js"
   ]
 }
