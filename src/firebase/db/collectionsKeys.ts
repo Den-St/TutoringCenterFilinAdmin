@@ -15,6 +15,7 @@ export enum collectionsKeys {
 };
 
 export const classesCollection = collection(db,collectionsKeys.classes);
+export const usersCollection = collection(db,collectionsKeys.users);
 export const coursesCollection = collection(db,collectionsKeys.courses);
 export const adminUsersCollection = collection(db,collectionsKeys.admins);
 export const courseThemesCollection = collection(db,collectionsKeys.courseThemes);

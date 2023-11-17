@@ -3,7 +3,7 @@ import { Button, Checkbox, Form, Input, Select, Table } from "antd";
 import { ColumnsType, TablePaginationConfig } from "antd/es/table";
 import {ChangeItemForm } from "./ChangeForm";
 import { Container } from "./styles";
-import { CourseT, } from "../../types/course";
+import { CourseT, CreateCourseT, } from "../../types/course";
 import { useCourses } from "../../hooks/courses";
 import { useSearchClass } from "../../hooks/searchClassNumber";
 import { Timestamp } from "firebase/firestore";
@@ -17,9 +17,14 @@ const {Option} = Select;
 export default function Courses() {
     const {loading,onChangePagination,items,refetch,count,pagination,onChangeItem,onCreateItem,
            onRowEnter,pickedItem,onChangeClass,chosenClass,debounceSearch,chosenSubject,onChangeSubject} = useCourses();
-    const {debounceSearchClass,classesItems,classSearchLoading} = useSearchClass();
-    const {debounceSearchSubject,subjectsItems,subjectSearchLoading} = useSearchSubject();
-        console.log('ite,s',items)
+    const {classesItems,classSearchLoading} = useSearchClass();
+    const {subjectsItems,subjectSearchLoading} = useSearchSubject();
+    const [form] = Form.useForm<CreateCourseT>();
+    
+    const onSubmit = (data:CreateCourseT) => {
+        onCreateItem(data);
+        form.resetFields();
+    }
     const paginationConfig:TablePaginationConfig = {
         onChange: onChangePagination,
         total:count,
@@ -37,11 +42,6 @@ export default function Courses() {
         getCheckboxProps: (item: CourseT) => ({...item}),
     };
     const columns:ColumnsType<CourseT> = [
-        // {
-        //     title:'ID',
-        //     dataIndex:'id',
-        //     key:'id'
-        // },
         {
             title:'Коротка назва',
             dataIndex:'shortName',
@@ -96,15 +96,14 @@ export default function Courses() {
             dataSource={items.map(item => ({...item,key:item.id}))}
             loading={loading.items} pagination={paginationConfig}/>
         <FormsContainer>
-            <Form onFinish={onCreateItem} autoComplete={'off'}>
-                <Title level={4}>Create course</Title>
+            <Form form={form} onFinish={onSubmit} autoComplete={'off'}>
+                <Title level={4}>Створити курс</Title>
                 <Form.Item
                     label="Номер класу"
                     name="class"
                     rules={[{ required: true, message: 'Оберіть клас!' }]}
                 >
                       <Select 
-                        onSearch={debounceSearchClass}
                         showSearch={true}
                         loading={classSearchLoading}
                         value={chosenClass ? JSON.stringify(chosenClass) : ''}
@@ -120,10 +119,9 @@ export default function Courses() {
                 <Form.Item
                     label="Назва предмету"
                     name="subject"
-                    rules={[{ required: true, message: 'Оберіть предмет!' }]}
+                    rules={[{ required: true, message: 'Оберіть предмет' }]}
                 >
                         <Select 
-                        onSearch={debounceSearchSubject}
                         showSearch={true}
                         loading={subjectSearchLoading}
                         value={chosenSubject ? JSON.stringify(chosenSubject) : ''}
@@ -139,21 +137,21 @@ export default function Courses() {
                 <Form.Item
                     label="Опис"
                     name="description"
-                    rules={[{ required: true, message: 'Введіть опис курсу!' }]}
+                    rules={[{ required: true, message: 'Введіть опис курсу' }]}
                 >
                     <Input.TextArea autoSize={true}  />
                 </Form.Item>
                 <Form.Item<CourseT>
                     label="Коротка назва"
                     name="shortName"
-                    rules={[{ required: true, message: 'Введіть коротку назву курсу!' }]}
+                    rules={[{ required: true, message: 'Введіть коротку назву курсу' }]}
                 >
                     <Input.TextArea autoSize={true}  />
                 </Form.Item>
                 <Form.Item
                     label="Друга назва"
                     name="secondName"
-                    rules={[{ required: true, message: 'Введіть другу назву!' }]}
+                    rules={[{ required: true, message: 'Введіть другу назву' }]}
                 >
                     <Input.TextArea autoSize={true}  />
                 </Form.Item>
@@ -166,7 +164,7 @@ export default function Courses() {
                 </Form.Item>
                 <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                     <Button type="primary" htmlType="submit">
-                        Submit
+                        Створити
                     </Button>
                 </Form.Item>
             </Form>

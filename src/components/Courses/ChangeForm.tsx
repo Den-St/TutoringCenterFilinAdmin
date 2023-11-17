@@ -18,10 +18,14 @@ type Props = {
 }
 
 export const ChangeItemForm:React.FC<Props> = ({onChangeItem,pickedItem,onChangeClass,chosenClass,onChangeSubject,chosenSubject}) => {
-    const {debounceSearchClass,classesItems,classSearchLoading} = useSearchClass();
-    const {debounceSearchSubject,subjectsItems,subjectSearchLoading} = useSearchSubject();
+    const {classesItems,classSearchLoading} = useSearchClass();
+    const {subjectsItems,subjectSearchLoading} = useSearchSubject();
     const [form] = Form.useForm<ChangeCourseT>();
-
+    
+    const onSubmit = (data:ChangeCourseT) => {
+        onChangeItem(data);
+        form.resetFields();
+    }
     useEffect(() => {
         if(!pickedItem) return;
         form.setFieldsValue({...pickedItem,class:JSON.stringify(pickedItem?.class),subject:JSON.stringify(pickedItem?.subject)});
@@ -29,15 +33,14 @@ export const ChangeItemForm:React.FC<Props> = ({onChangeItem,pickedItem,onChange
         onChangeSubject(JSON.stringify(pickedItem?.subject));
     },[pickedItem]);
 
-    return <Form onFinish={onChangeItem} form={form} disabled={!pickedItem} autoComplete={'off'}>
+    return <Form onFinish={onSubmit} form={form} disabled={!pickedItem} autoComplete={'off'}>
         <Title level={4}>Змінити курс</Title>
         <Form.Item
             label="Номер класу"
             name="class"
-            rules={[{ required: true, message: 'Оберіть клас!' }]}
+            rules={[{ required: true, message: 'Оберіть клас' }]}
         >
               <Select 
-                onSearch={debounceSearchClass}
                 showSearch={true}
                 loading={classSearchLoading}
                 value={chosenClass ? JSON.stringify(chosenClass) : ''}
@@ -56,10 +59,9 @@ export const ChangeItemForm:React.FC<Props> = ({onChangeItem,pickedItem,onChange
         <Form.Item
             label="Назва предмету"
             name="subject"
-            rules={[{ required: true, message: 'Оберіть предмет!' }]}
+            rules={[{ required: true, message: 'Оберіть предмет' }]}
         >
                 <Select 
-                onSearch={debounceSearchSubject}
                 showSearch={true}
                 loading={subjectSearchLoading}
                 value={chosenSubject ? JSON.stringify(chosenSubject) : ''}
@@ -78,21 +80,21 @@ export const ChangeItemForm:React.FC<Props> = ({onChangeItem,pickedItem,onChange
         <Form.Item
             label="Опис"
             name="description"
-            rules={[{ required: true, message: 'Please input description of course!' }]}
+            rules={[{ required: true, message: 'Please input description of course' }]}
         >
             <Input.TextArea autoSize={true}  />
         </Form.Item>
         <Form.Item
             label="Коротка назва"
             name="shortName"
-            rules={[{ required: true, message: 'Please input short name of course!' }]}
+            rules={[{ required: true, message: 'Please input short name of course' }]}
         >
             <Input.TextArea autoSize={true}  />
         </Form.Item>
         <Form.Item
             label="Друга назва"
             name="secondName"
-            rules={[{ required: true, message: 'Please input second name of course!' }]}
+            rules={[{ required: true, message: 'Please input second name of course' }]}
         >
             <Input.TextArea autoSize={true}  />
         </Form.Item>
@@ -109,11 +111,10 @@ export const ChangeItemForm:React.FC<Props> = ({onChangeItem,pickedItem,onChange
             name="createdAt"
             valuePropName="checked"
         >
-            <TimePicker disabled/>
         </Form.Item>
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
             <Button type="primary" htmlType="submit">
-                Submit
+                Змінити
             </Button>
         </Form.Item>
     </Form>

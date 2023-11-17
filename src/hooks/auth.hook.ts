@@ -1,3 +1,4 @@
+import { AdminT } from './../types/admin';
 import { UserT } from './../types/user';
 import { onAuthStateChanged } from "firebase/auth";
 import { useState, useEffect } from "react";
@@ -22,7 +23,7 @@ export const useAuth = () => {
 
             const user = await getAdminUserByEmail(googleAuthProvider.currentUser?.email);
 
-            const userDataGoogle:UserT = {
+            const userDataGoogle:AdminT = {
                 email:googleAuthProvider.currentUser?.email,
             }
             console.log('fd',userDataGoogle);

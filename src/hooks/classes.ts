@@ -53,5 +53,5 @@ export const useAdminClasses = () => {
         setPickedClass(pickedClass);
     }
 
-    return {classes,onChangePagination,loading,refetch:fetch,count,pagination,onCreateClass,onChangeClass,onRowEnter,pickedClass};
+    return {classes,onChangePagination,loading,count,pagination,onCreateClass,onChangeClass,onRowEnter,pickedClass};
 }

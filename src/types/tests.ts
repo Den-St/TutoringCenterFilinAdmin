@@ -1,3 +1,4 @@
+import { ClassT } from './class';
 import { SubjectT } from './subject';
 import { CourseT } from './course';
 import { DocumentT } from './document';
@@ -14,6 +15,7 @@ export type TestProductT = {
     isActive:boolean,
     tests:Record<number,TestForTestProductT>[],
     subject:SubjectT
+    class:ClassT
 }
 
 export type CreateTestProductT = {
@@ -24,6 +26,7 @@ export type CreateTestProductT = {
     isActive:boolean,
     tests:Record<number,TestForTestProductT>[],
     subject:string
+    class:string
 }
 
 export type ChangeTestProductT = {
@@ -34,6 +37,7 @@ export type ChangeTestProductT = {
     isActive:boolean
     tests:Record<number,TestForTestProductT>[],
     subject:string
+    class:string
 }
 export type ChangeTestProductWithCourseT = {
     course:CourseT

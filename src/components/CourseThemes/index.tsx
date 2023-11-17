@@ -1,5 +1,5 @@
-import { Button, Checkbox, Form, Input, Select, Space, Table } from "antd";
-import { ColumnsType, ColumnType, TablePaginationConfig } from "antd/es/table";
+import { Button, Checkbox, Form, Input, Select, Space, Table, Upload } from "antd";
+import { ColumnsType, TablePaginationConfig } from "antd/es/table";
 import {ChangeItemForm } from "./ChangeForm";
 import { Container } from "./styles";
 import { CourseT } from "../../types/course";
@@ -7,8 +7,6 @@ import { Timestamp } from "firebase/firestore";
 import Title from "antd/es/typography/Title";
 import { FormsContainer } from "../Classes/styles";
 import { CourseThemeT } from "../../types/courseThemes";
-import { VideoLessonT } from "../../types/videoLesson";
-import { Link } from "react-router-dom";
 import { useCourseThemes } from "../../hooks/courseThemes";
 import { useSearchCourse } from "../../hooks/searchCourse";
 import {MinusCircleOutlined,PlusOutlined} from '@ant-design/icons';
@@ -17,7 +15,7 @@ const {Option} = Select;
 
 export default function CourseThemes() {
     const {loading,onChangePagination,items,refetch,count,pagination,onChangeItem,onCreateItem,onRowEnter,pickedItem,onChangeCourse,chosenCourse,debounceSearch} = useCourseThemes();
-    const {debounceSearchClass,coursesItems,classSearchLoading} = useSearchCourse();
+    const {coursesItems,classSearchLoading} = useSearchCourse();
 
     const paginationConfig:TablePaginationConfig = {
         onChange: onChangePagination,
@@ -37,7 +35,7 @@ export default function CourseThemes() {
     };
     const columns:ColumnsType<CourseThemeT> = [
         {
-            title:'Name',
+            title:'Назва',
             dataIndex:'name',
             key:'name',
             filterDropdown:() => {
@@ -45,17 +43,17 @@ export default function CourseThemes() {
             }
         },
         {
-            title:'Price',
+            title:'Ціна',
             dataIndex:'price',
             key:'price'
         },
         {
-            title:'Subscription duration',
+            title:'Тривалість підписки',
             dataIndex:'subscriptionDuration',
             key:'subscriptionDuration'
         },
         {
-            title:'Course',
+            title:'Назва курсу',
             dataIndex:'course',
             key:'course',
             render:(value:CourseT) => value?.secondName
@@ -67,19 +65,19 @@ export default function CourseThemes() {
             render:(value:SubjectT) => value?.name
         },
         {
-            title:'Created at',
+            title:'Створено',
             dataIndex:'createdAt',
             key:'createdAt',
             render:(value:Timestamp) => value?.toDate()?.toLocaleString()
         },
         {
-            title:'Is active',
+            title:'Активний?',
             dataIndex:'isActive',
             key:'isActive',
             render:(value) => <Checkbox checked={value} onChange={() => {}} />
         }
     ];
-    console.log(items)
+
     return <Container >
         <Table style={{width:'50%'}}
             rowSelection={{
@@ -95,10 +93,9 @@ export default function CourseThemes() {
                 <Form.Item
                     label="Курс"
                     name="course"
-                    rules={[{ required: true, message: 'Оберіть курс!' }]}
+                    rules={[{ required: true, message: 'Оберіть курс' }]}
                 >
                     <Select
-                        onSearch={debounceSearchClass}
                         showSearch={true}
                         loading={classSearchLoading}
                         value={chosenCourse ? JSON.stringify(chosenCourse) : ''}
@@ -114,21 +111,21 @@ export default function CourseThemes() {
                 <Form.Item
                     label="Назва"
                     name="name"
-                    rules={[{ required: true, message: 'Оберіть назву теми!'}]}
+                    rules={[{ required: true, message: 'Оберіть назву теми'}]}
                 >
                     <Input />
                 </Form.Item>
                 <Form.Item
                     label="Тривалисть підписки(місяці)"
                     name="subscriptionDuration"
-                    rules={[{ required: true, message: 'Оберіть тривалість підписки!' }]}
+                    rules={[{ required: true, message: 'Оберіть тривалість підписки' }]}
                 >
                     <Input type={"number"} />
                 </Form.Item>
                 <Form.Item
                     label="Ціна"
                     name="price"
-                    rules={[{ required: true, message: 'Оберіть ціну!' }]}
+                    rules={[{ required: true, message: 'Оберіть ціну' }]}
                 >
                     <Input type={'number'} />
                 </Form.Item>
@@ -147,7 +144,7 @@ export default function CourseThemes() {
                         <Form.Item
                             {...restField}
                             name={[name, 'videoURL']}
-                            rules={[{ required: true, message: 'Увведіть посилання на відео' }]}
+                            rules={[{ required: true, message: 'Увведіть посилання на відео'}]}
                         >
                             <Input placeholder="Посилання на відео" />
                         </Form.Item>
@@ -213,17 +210,22 @@ export default function CourseThemes() {
                         </Form.Item>
                         <Form.Item
                             {...restField}
-                            name={[name, 'documentURL']}
-                            rules={[{ required: true, message: 'Увведіть посилання на учбовий матеріал'}]}
+                            label={'Файл'}
+                            name={[name, 'document']}
+                            rules={[{ required: true, message: 'Уведіть документ'}]}
                         >
-                            <Input placeholder="Посилання на учбовий матеріал" />
+                            <Upload style={{cursor:'pointer'}}>
+                                <div>
+                                    <PlusOutlined  style={{cursor:'pointer'}}/>
+                                </div>
+                            </Upload>
                         </Form.Item>
                         <MinusCircleOutlined onClick={() => remove(name)} />
                         </Space>
                     ))}
                     <Form.Item>
                         <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
-                            Додати учбовий матеріал
+                            Додати документ
                         </Button>
                     </Form.Item>
                     </>

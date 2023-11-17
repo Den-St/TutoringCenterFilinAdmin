@@ -5,13 +5,11 @@ import Title from "antd/es/typography/Title";
 
 type Props = {
     onChangeClass:(data:ChangeClassType) => void,
-    classes:ClassT[],
     pickedClass?:ClassT | null
 }
 
-export const ChangeClassForm:React.FC<Props> = ({onChangeClass,classes,pickedClass}) => {
+export const ChangeClassForm:React.FC<Props> = ({onChangeClass,pickedClass}) => {
     const [form] = Form.useForm();
-    console.log('t',pickedClass)
     const onSubmit = (data: ChangeClassType) => {
         onChangeClass(data);
         form.resetFields();
@@ -21,11 +19,11 @@ export const ChangeClassForm:React.FC<Props> = ({onChangeClass,classes,pickedCla
     },[pickedClass]);
 
     return <Form onFinish={onSubmit} form={form} disabled={!pickedClass} autoComplete={'off'}>
-        <Title level={4}>Change class</Title>
+        <Title level={4}>Змінити клас</Title>
         <Form.Item
             label="Номер"
             name="number"
-            rules={[{ required: true, message: 'Please input class number!' }]}
+            rules={[{ required: true, message: 'Введіть клас' }]}
         >
             <Input type="number"/>
         </Form.Item>
@@ -38,7 +36,7 @@ export const ChangeClassForm:React.FC<Props> = ({onChangeClass,classes,pickedCla
         </Form.Item>
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
             <Button type="primary" htmlType="submit">
-                Submit
+                Змінити
             </Button>
         </Form.Item>
     </Form>

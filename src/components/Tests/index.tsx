@@ -1,15 +1,11 @@
 import { Button, Checkbox, Form, Input, Select, Space, Table } from "antd";
-import { ColumnsType, ColumnType, TablePaginationConfig } from "antd/es/table";
+import { ColumnsType, TablePaginationConfig } from "antd/es/table";
 import {ChangeItemForm } from "./ChangeForm";
 import { Container } from "./styles";
 import { CourseT } from "../../types/course";
 import { Timestamp } from "firebase/firestore";
 import Title from "antd/es/typography/Title";
 import { FormsContainer } from "../Classes/styles";
-import { CourseThemeT } from "../../types/courseThemes";
-import { VideoLessonT } from "../../types/videoLesson";
-import { Link } from "react-router-dom";
-import { useCourseThemes } from "../../hooks/courseThemes";
 import { useSearchCourse } from "../../hooks/searchCourse";
 import {MinusCircleOutlined,PlusOutlined} from '@ant-design/icons';
 import { SubjectT } from "../../types/subject";
@@ -19,7 +15,7 @@ const {Option} = Select;
 
 export default function Tests() {
     const {loading,onChangePagination,items,refetch,count,pagination,onChangeItem,onCreateItem,onRowEnter,pickedItem,onChangeCourse,chosenCourse,debounceSearch} = useTests();
-    const {debounceSearchClass,coursesItems,classSearchLoading} = useSearchCourse();
+    const {coursesItems,classSearchLoading} = useSearchCourse();
 
     const paginationConfig:TablePaginationConfig = {
         onChange: onChangePagination,
@@ -81,7 +77,7 @@ export default function Tests() {
             render:(value) => <Checkbox checked={value} onChange={() => {}} />
         }
     ];
-    console.log(items)
+
     return <Container >
         <Table style={{width:'50%'}}
             rowSelection={{
@@ -97,10 +93,9 @@ export default function Tests() {
                 <Form.Item
                     label="Курс"
                     name="course"
-                    rules={[{ required: true, message: 'Оберіть курс!' }]}
+                    rules={[{ required: true, message: 'Оберіть курс' }]}
                 >
                     <Select
-                        onSearch={debounceSearchClass}
                         showSearch={true}
                         loading={classSearchLoading}
                         value={chosenCourse ? JSON.stringify(chosenCourse) : ''}
@@ -116,21 +111,21 @@ export default function Tests() {
                 <Form.Item
                     label="Назва"
                     name="name"
-                    rules={[{ required: true, message: 'Оберіть назву теми!'}]}
+                    rules={[{ required: true, message: 'Оберіть назву теми'}]}
                 >
                     <Input />
                 </Form.Item>
                 <Form.Item
                     label="Тривалисть підписки(місяці)"
                     name="subscriptionDuration"
-                    rules={[{ required: true, message: 'Оберіть тривалість підписки!' }]}
+                    rules={[{ required: true, message: 'Оберіть тривалість підписки' }]}
                 >
                     <Input type={"number"} />
                 </Form.Item>
                 <Form.Item
                     label="Ціна"
                     name="price"
-                    rules={[{ required: true, message: 'Оберіть ціну!' }]}
+                    rules={[{ required: true, message: 'Оберіть ціну' }]}
                 >
                     <Input type={'number'} />
                 </Form.Item>
@@ -182,7 +177,7 @@ export default function Tests() {
                 </Form.Item>
                 <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                     <Button type="primary" htmlType="submit">
-                        Submit
+                        Створити
                     </Button>
                 </Form.Item>
             </Form>

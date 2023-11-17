@@ -1,13 +1,9 @@
 import { useEffect } from "react";
-import { Button, Carousel, Checkbox, Form, Input, Select, Space, TimePicker,Image } from "antd";
+import { Button, Carousel, Checkbox, Form, Input, Select, TimePicker,Image } from "antd";
 import Title from "antd/es/typography/Title";
-import { ChangeCourseThemeT, CourseThemeT } from "../../types/courseThemes";
-import { useSearchCourse } from "../../hooks/searchCourse";
-import { CourseT } from "../../types/course";
-import {MinusCircleOutlined, PlusOutlined, UploadOutlined, CloseCircleOutlined} from '@ant-design/icons';
-import { ChangeEventFormT, ChangeEventT, EventT } from "../../types/event";
+import { UploadOutlined, CloseCircleOutlined} from '@ant-design/icons';
+import { ChangeEventFormT, EventT } from "../../types/event";
 import { CarouselContainer, ImageContainer, RemovePhotoButton, PhotosInputContainer, PhotosInput } from "./styles";
-const {Option} = Select;
 
 type Props = {
     onChangeItem:(data:ChangeEventFormT) => void,

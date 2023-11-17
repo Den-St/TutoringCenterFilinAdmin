@@ -1,16 +1,10 @@
-import { Button, Checkbox, Form, Input, Select, Space, Table } from "antd";
-import { ColumnsType, ColumnType, TablePaginationConfig } from "antd/es/table";
+import { Button, Checkbox, Form, Input, Select, Space, Table, Upload } from "antd";
+import { ColumnsType, TablePaginationConfig } from "antd/es/table";
 import {ChangeItemForm } from "./ChangeForm";
 import { Container } from "./styles";
-import { CourseT } from "../../types/course";
 import { Timestamp } from "firebase/firestore";
 import Title from "antd/es/typography/Title";
 import { FormsContainer } from "../Classes/styles";
-import { CourseThemeT } from "../../types/courseThemes";
-import { VideoLessonT } from "../../types/videoLesson";
-import { Link } from "react-router-dom";
-import { useCourseThemes } from "../../hooks/courseThemes";
-import { useSearchCourse } from "../../hooks/searchCourse";
 import {MinusCircleOutlined,PlusOutlined} from '@ant-design/icons';
 import { useStudyMaterials } from "../../hooks/studyMaterials";
 import { CreateStudyMaterialFormT, StudyMaterialT } from "../../types/studyMaterial";
@@ -23,7 +17,7 @@ const {Option} = Select;
 
 export default function StudyMaterials() {
     const {loading,onChangePagination,items,refetch,count,pagination,onChangeItem,onCreateItem,onRowEnter,pickedItem,debounceSearch,chosenClass,onChangeClass,} = useStudyMaterials();
-    const {debounceSearchClass,classesItems,classSearchLoading} = useSearchClass();
+    const {classesItems,classSearchLoading} = useSearchClass();
     const [form] = Form.useForm<CreateStudyMaterialFormT>();
     const description = Form.useWatch('description',form);
 
@@ -94,7 +88,7 @@ export default function StudyMaterials() {
         form.setFieldValue('description',value);
         console.log(description)
     }
-    console.log(items)
+
     return <Container >
         <Table style={{width:'50%'}}
             rowSelection={{
@@ -110,10 +104,9 @@ export default function StudyMaterials() {
                 <Form.Item
                     label="Номер класу"
                     name="class"
-                    rules={[{ required: true, message: 'Оберіть клас!' }]}
+                    rules={[{ required: true, message: 'Оберіть клас' }]}
                 >
                       <Select 
-                        onSearch={debounceSearchClass}
                         showSearch={true}
                         loading={classSearchLoading}
                         value={chosenClass ? JSON.stringify(chosenClass) : ''}
@@ -129,21 +122,21 @@ export default function StudyMaterials() {
                 <Form.Item
                     label="Назва"
                     name="name"
-                    rules={[{ required: true, message: 'Оберіть назву теми!'}]}
+                    rules={[{ required: true, message: 'Оберіть назву теми'}]}
                 >
                     <Input />
                 </Form.Item>
                 <Form.Item
                     label="Тривалисть підписки(місяці)"
                     name="subscriptionDuration"
-                    rules={[{ required: true, message: 'Оберіть тривалість підписки!' }]}
+                    rules={[{ required: true, message: 'Оберіть тривалість підписки' }]}
                 >
                     <Input type={"number"} />
                 </Form.Item>
                 <Form.Item
                     label="Ціна"
                     name="price"
-                    rules={[{ required: true, message: 'Оберіть ціну!' }]}
+                    rules={[{ required: true, message: 'Оберіть ціну' }]}
                 >
                     <Input type={'number'} />
                 </Form.Item>
@@ -235,10 +228,15 @@ export default function StudyMaterials() {
                         </Form.Item>
                         <Form.Item
                             {...restField}
-                            name={[name, 'documentURL']}
-                            rules={[{ required: true, message: 'Увведіть посилання на учбовий матеріал'}]}
+                            label={'Файл'}
+                            name={[name, 'document']}
+                            rules={[{ required: true, message: 'Уведіть документ'}]}
                         >
-                            <Input placeholder="Посилання на учбовий матеріал" />
+                            <Upload>
+                                <div>
+                                    <PlusOutlined />
+                                </div>
+                            </Upload>
                         </Form.Item>
                         <MinusCircleOutlined onClick={() => remove(name)} />
                         </Space>
@@ -251,29 +249,6 @@ export default function StudyMaterials() {
                     </>
                 )}
                 </Form.List>
-                {/* <Form.List name="themes">
-                    {(fields, { add, remove }) => (
-                    <>
-                    {fields.map(({ key, name, ...restField }) => (
-                        <Space key={key} style={{ display: 'flex', flexDirection:'column',gap:'3px'}} >
-                        <Form.Item
-                            {...restField}
-                            name={[name, 'name']}
-                            rules={[{ required: true, message: 'Уведіть назву теми'}]}
-                        >
-                            <Input placeholder="Назва теми" />
-                        </Form.Item>
-                        <MinusCircleOutlined onClick={() => remove(name)} />
-                        </Space>
-                    ))}
-                    <Form.Item>
-                        <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
-                            Додати документ
-                        </Button>
-                    </Form.Item>
-                    </>
-                )}
-                </Form.List> */}
                 <Form.Item
                     label="Теми"
                     name="themes">
@@ -295,7 +270,7 @@ export default function StudyMaterials() {
                 </Form.Item>
                 <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                     <Button type="primary" htmlType="submit">
-                        Submit
+                        Створити
                     </Button>
                 </Form.Item>
             </Form>

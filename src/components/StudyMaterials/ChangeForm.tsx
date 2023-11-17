@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Button, Checkbox, Form, Input, Select, Space, TimePicker } from "antd";
+import { Button, Checkbox, Form, Input, Select, Space, TimePicker, Upload } from "antd";
 import Title from "antd/es/typography/Title";
 import { ChangeCourseThemeT, CourseThemeT } from "../../types/courseThemes";
 import { useSearchCourse } from "../../hooks/searchCourse";
@@ -12,15 +12,15 @@ import ReactQuill from "react-quill";
 const {Option} = Select;
 
 type Props = {
-    onChangeItem:(data:ChangeStudyMaterialT) => void,
+    onChangeItem:(data:ChangeStudyMaterialFormT) => void,
     pickedItem?:StudyMaterialT | null,
     chosenClass:ClassT | null
     onChangeClass:(stringified:string) => void
 }
 
 export const ChangeItemForm:React.FC<Props> = ({onChangeItem,pickedItem,chosenClass,onChangeClass}) => {
-    const {debounceSearchClass,classesItems,classSearchLoading} = useSearchClass();
-    const [form] = Form.useForm<ChangeStudyMaterialT>();
+    const {classesItems,classSearchLoading} = useSearchClass();
+    const [form] = Form.useForm<ChangeStudyMaterialFormT>();
     const description = Form.useWatch('description',form);
 
     useEffect(() => {
@@ -37,10 +37,9 @@ export const ChangeItemForm:React.FC<Props> = ({onChangeItem,pickedItem,chosenCl
             <Form.Item
                 label="Номер класу"
                 name="class"
-                rules={[{ required: true, message: 'Оберіть клас!' }]}
+                rules={[{ required: true, message: 'Оберіть клас' }]}
             >
                 <Select 
-                    onSearch={debounceSearchClass}
                     showSearch={true}
                     loading={classSearchLoading}
                     value={chosenClass ? JSON.stringify(chosenClass) : ''}
@@ -59,21 +58,21 @@ export const ChangeItemForm:React.FC<Props> = ({onChangeItem,pickedItem,chosenCl
             <Form.Item
                 label="Назва"
                 name="name"
-                rules={[{ required: true, message: 'Оберіть назву теми!'}]}
+                rules={[{ required: true, message: 'Оберіть назву теми'}]}
             >
                 <Input />
             </Form.Item>
             <Form.Item
                 label="Тривалисть підписки(місяці)"
                 name="subscriptionDuration"
-                rules={[{ required: true, message: 'Оберіть тривалість підписки!' }]}
+                rules={[{ required: true, message: 'Оберіть тривалість підписки' }]}
             >
                 <Input type={"number"} />
             </Form.Item>
             <Form.Item
                 label="Ціна"
                 name="price"
-                rules={[{ required: true, message: 'Оберіть ціну!' }]}
+                rules={[{ required: true, message: 'Оберіть ціну' }]}
             >
                 <Input type={'number'} />
             </Form.Item>
@@ -152,58 +151,40 @@ export const ChangeItemForm:React.FC<Props> = ({onChangeItem,pickedItem,chosenCl
             )}
             </Form.List>
             <Form.List name="documents">
-                {(fields, { add, remove }) => (
-                <>
-                {fields.map(({ key, name, ...restField }) => (
-                    <Space key={key} style={{ display: 'flex', flexDirection:'column',gap:'3px'}} >
-                    <Form.Item
-                        {...restField}
-                        name={[name, 'name']}
-                        rules={[{ required: true, message: 'Уведіть назву учбового матеріалу'}]}
-                    >
-                        <Input placeholder="Назва учбового матеріалу" />
+                    {(fields, { add, remove }) => (
+                    <>
+                    {fields.map(({ key, name, ...restField }) => (
+                        <Space key={key} style={{ display: 'flex', flexDirection:'column',gap:'3px'}} >
+                        <Form.Item
+                            {...restField}
+                            name={[name, 'name']}
+                            rules={[{ required: true, message: 'Уведіть назву документу'}]}
+                        >
+                            <Input placeholder="Назва документу" />
+                        </Form.Item>
+                        <Form.Item
+                            {...restField}
+                            label={'Файл'}
+                            name={[name, 'document']}
+                            rules={[{ required: true, message: 'Уведіть документ'}]}
+                        >
+                            <Upload>
+                                <div>
+                                    <PlusOutlined />
+                                </div>
+                            </Upload>
+                        </Form.Item>
+                        <MinusCircleOutlined onClick={() => remove(name)} />
+                        </Space>
+                    ))}
+                    <Form.Item>
+                        <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                            Додати документ
+                        </Button>
                     </Form.Item>
-                    <Form.Item
-                        {...restField}
-                        name={[name, 'documentURL']}
-                        rules={[{ required: true, message: 'Увведіть посилання на учбовий матеріал'}]}
-                    >
-                        <Input placeholder="Посилання на учбовий матеріал" />
-                    </Form.Item>
-                    <MinusCircleOutlined onClick={() => remove(name)} />
-                    </Space>
-                ))}
-                <Form.Item>
-                    <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
-                        Додати документ
-                    </Button>
-                </Form.Item>
-                </>
-            )}
-            </Form.List>
-            {/* <Form.List name="themes">
-                {(fields, { add, remove }) => (
-                <>
-                {fields.map(({ key, name, ...restField }) => (
-                    <Space key={key} style={{ display: 'flex', flexDirection:'column',gap:'3px'}} >
-                    <Form.Item
-                        {...restField}
-                        name={[name, 'name']}
-                        rules={[{ required: true, message: 'Уведіть назву теми'}]}
-                    >
-                        <Input placeholder="Назва теми" />
-                    </Form.Item>
-                    <MinusCircleOutlined onClick={() => remove(name)} />
-                    </Space>
-                ))}
-                <Form.Item>
-                    <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
-                        Додати документ
-                    </Button>
-                </Form.Item>
-                </>
-            )}
-            </Form.List> */}
+                    </>
+                )}
+                </Form.List>
             <Form.Item
                 label="Теми"
                 name="themes">
@@ -233,7 +214,7 @@ export const ChangeItemForm:React.FC<Props> = ({onChangeItem,pickedItem,chosenCl
         </Form.Item>
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                 <Button type="primary" htmlType="submit">
-                    Submit
+                    Змінити
                 </Button>
             </Form.Item>
     </Form>

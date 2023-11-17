@@ -1,6 +1,6 @@
 import { SubjectT } from './subject';
 import { CourseT } from './course';
-import { DocumentT } from './document';
+import { CreateDocumentT, DocumentT } from './document';
 import { TestT } from './test';
 import { VideoLessonT } from './videoLesson';
 
@@ -26,7 +26,19 @@ export type CreateCourseThemeT = {
     isActive:boolean,
     videoLessons:Record<number,VideoLessonT>[]
     tests:Record<number,TestT>[],
-    documents:Record<number,DocumentT>[]
+    documents:DocumentT[]
+    subject:string
+}
+
+export type CreateCourseThemeFormT = {
+    course:string
+    name:string
+    subscriptionDuration:number
+    price:number
+    isActive:boolean,
+    videoLessons:Record<number,VideoLessonT>[]
+    tests:Record<number,TestT>[],
+    documents:CreateDocumentT[]
     subject:string
 }
 

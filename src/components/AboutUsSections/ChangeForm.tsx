@@ -1,4 +1,3 @@
-import { ChangeClassType, ClassT } from "../../types/class";
 import { useEffect } from "react";
 import { Button, Checkbox, Form, Input } from "antd";
 import Title from "antd/es/typography/Title";
@@ -27,18 +26,18 @@ export const ChangeAboutUsSectionsForm:React.FC<Props> = ({onChangeItem,pickedIt
         form.setFieldValue('text',value);
     }
     return <Form onFinish={onSubmit} form={form} disabled={!pickedItem} autoComplete={'off'}>
-        <Title level={4}>Змінити секцію "про нас"</Title>
+        <Title level={4}>Змінити секцію "Про нас"</Title>
         <Form.Item
             label="Номер"
             name="number"
-            rules={[{ required: true, message: 'Будь ласка введіть номер!' }]}
+            rules={[{ required: true, message: 'Введіть номер' }]}
         >
             <Input type="number"/>
         </Form.Item>
         <Form.Item
             label="Назва"
             name="name"
-            rules={[{ required: true, message:'Будь ласка введіть назву!'}]}
+            rules={[{ required: true, message:'Введіть назву'}]}
         >
             <Input/>
         </Form.Item>
@@ -57,7 +56,7 @@ export const ChangeAboutUsSectionsForm:React.FC<Props> = ({onChangeItem,pickedIt
         </Form.Item>
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
             <Button type="primary" htmlType="submit">
-                Submit
+                Змінити
             </Button>
         </Form.Item>
     </Form>

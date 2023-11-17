@@ -2,42 +2,36 @@ import { ChangeClassType, ClassT } from "../../types/class";
 import { useEffect } from "react";
 import { Button, Checkbox, Form, Input } from "antd";
 import Title from "antd/es/typography/Title";
-import { ChangeSubjectT, SubjectT } from "../../types/subject";
+import { ChangeUserT, UserT } from "../../types/user";
 
 type Props = {
-    onChangeItem:(data:ChangeSubjectT) => void,
-    pickedItem?:SubjectT | null
+    onChangeItem:(data:ChangeUserT) => void,
+    pickedItem?:UserT | null
 }
 
-export const ChangeClassForm:React.FC<Props> = ({onChangeItem,pickedItem}) => {
+export const ChangeUserForm:React.FC<Props> = ({onChangeItem,pickedItem}) => {
     const [form] = Form.useForm();
-    const onSubmit = (data: ChangeSubjectT) => {
+
+    const onSubmit = (data: ChangeUserT) => {
         onChangeItem(data);
         form.resetFields();
     }
     useEffect(() => {
-        form.setFieldsValue({name:pickedItem?.name,isActive:pickedItem?.isActive});
+        form.setFieldsValue({...pickedItem});
     },[pickedItem]);
 
     return <Form onFinish={onSubmit} form={form} disabled={!pickedItem} autoComplete={'off'}>
-        <Title level={4}>Змінити предмет</Title>
+        <Title level={4}>Змінити користувача</Title>
         <Form.Item
-            label="Назва"
-            name="name"
-            rules={[{ required: true, message: 'Введіть назву' }]}
-        >
-            <Input/>
-        </Form.Item>
-        <Form.Item
-            label="Активний"
-            name="isActive"
+            label="Вчитель"
+            name="isTeacher"
             valuePropName="checked"
         >
             <Checkbox/>
         </Form.Item>
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
             <Button type="primary" htmlType="submit">
-                Змінити
+                Створити
             </Button>
         </Form.Item>
     </Form>

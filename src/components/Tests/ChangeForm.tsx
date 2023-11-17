@@ -16,12 +16,12 @@ type Props = {
 }
 
 export const ChangeItemForm:React.FC<Props> = ({onChangeItem,pickedItem,chosenCourse,onChangeCourse}) => {
-    const {debounceSearchClass,coursesItems,classSearchLoading} = useSearchCourse();
+    const {coursesItems,classSearchLoading} = useSearchCourse();
     const [form] = Form.useForm<ChangeTestProductT>();
 
     useEffect(() => {
         if(!pickedItem) return;
-        form.setFieldsValue({...pickedItem,course:JSON.stringify(pickedItem?.course),subject:pickedItem.course.subject.id});
+        form.setFieldsValue({...pickedItem,course:JSON.stringify(pickedItem?.course),subject:pickedItem.course.subject.id,class:pickedItem.class.id});
         onChangeCourse(JSON.stringify(pickedItem?.course));
     },[pickedItem]);
 
@@ -30,10 +30,9 @@ export const ChangeItemForm:React.FC<Props> = ({onChangeItem,pickedItem,chosenCo
         <Form.Item
             label="Курс"
             name="course"
-            rules={[{ required: true, message: 'Please choose course!' }]}
+            rules={[{ required: true, message: 'Оберіть курс' }]}
         >
             <Select 
-                onSearch={debounceSearchClass}
                 showSearch={true}
                 loading={classSearchLoading}
                 value={chosenCourse ? JSON.stringify(chosenCourse) : ''}
@@ -52,21 +51,21 @@ export const ChangeItemForm:React.FC<Props> = ({onChangeItem,pickedItem,chosenCo
         <Form.Item
             label="Назва"
             name="name"
-            rules={[{ required: true, message: 'Please input name of theme!' }]}
+            rules={[{ required: true, message: 'Введіть назву' }]}
         >
             <Input />
         </Form.Item>
         <Form.Item
-            label="Subscription duration"
+            label="Тривалість підписки"
             name="subscriptionDuration"
-            rules={[{ required: true, message: 'Please input short name of course!' }]}
+            rules={[{ required: true, message: 'Введіть тривалість підписки' }]}
         >
             <Input type={"number"} />
         </Form.Item>
         <Form.Item
-            label="Price"
+            label="Ціна"
             name="price"
-            rules={[{ required: true, message: 'Please input price of theme!' }]}
+            rules={[{ required: true, message: 'Уведіть ціну' }]}
         >
             <Input type={'number'} />
         </Form.Item>
@@ -125,7 +124,7 @@ export const ChangeItemForm:React.FC<Props> = ({onChangeItem,pickedItem,chosenCo
         </Form.Item>
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
             <Button type="primary" htmlType="submit">
-                Submit
+                Змінити
             </Button>
         </Form.Item>
     </Form>

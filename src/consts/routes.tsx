@@ -8,6 +8,7 @@ import { Login } from '../components/Login';
 import StudyMaterials from '../components/StudyMaterials';
 import Subjects from '../components/Subjects';
 import Tests from '../components/Tests';
+import Users from '../components/Users';
 import { navRoutesType } from '../types/routes';
 
 export const routes = {
@@ -23,7 +24,7 @@ export const routes = {
     events:'/events',
     subjects:'/subjects',
 }
-export type routesKeysType = 'classes' | 'courses' | 'courseThemes' | 'videoLessons' | 'tests' | 'users' | 'login' | 'aboutUsSections' | 'studyMaterials' | 'events' | 'subjects';
+export type routesKeysType = 'classes' | 'courses' | 'courseThemes' | 'videoLessons' | 'tests' | 'users' | 'login' | 'aboutUsSections' | 'studyMaterials' | 'events' | 'subjects' | 'users';
 
 const baseRoute = '/TutoringCenterFilinAdmin';
 const routeWrap = (route:string) => baseRoute + route;
@@ -38,11 +39,11 @@ export const wrappedRoutes:Record<routesKeysType,string>  = {
     aboutUsSections:'',
     studyMaterials:'',
     events:'',
-    subjects:''
+    subjects:'',
 };
 Object.keys(routes).forEach(key => wrappedRoutes[key as routesKeysType] = routeWrap(routes[key as routesKeysType]));
 
-export type adminNavRoutesKeysType = 'users' | 'classes' | 'courses' | 'courseThemes'  | 'aboutUsSections' | 'studyMaterials' | 'events' | 'subjects' | 'tests';// | 'videoLessons'
+export type adminNavRoutesKeysType = 'users' | 'classes' | 'courses' | 'courseThemes'  | 'aboutUsSections' | 'studyMaterials' | 'events' | 'subjects' | 'tests' | 'users';// | 'videoLessons'
 export const adminNavRoutes:Record<adminNavRoutesKeysType,navRoutesType> = {
     users:{
         title:'Користувачі',
@@ -97,6 +98,7 @@ export const PublicRoutes = [
     <Route key={adminNavRoutes.studyMaterials.route} element={<StudyMaterials/>} path={adminNavRoutes.studyMaterials.route}/>,
     <Route key={adminNavRoutes.events.route} element={<Events/>} path={adminNavRoutes.events.route}/>,
     <Route key={adminNavRoutes.subjects.route} element={<Subjects/>} path={adminNavRoutes.subjects.route}/>,
+    <Route key={adminNavRoutes.users.route} element={<Users/>} path={adminNavRoutes.users.route}/>,
 
     // <Route key={routes.githubPage} element={<GitHubPages/>} path={routes.githubPage}/>,
 ]

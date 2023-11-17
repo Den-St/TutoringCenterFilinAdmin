@@ -1,13 +1,16 @@
 import { changeCourseTheme } from './../firebase/db/courseThemes/edit/changeCourseTheme';
 import { createCourseTheme } from './../firebase/db/courseThemes/create/createCourseTheme';
 import { getCourseThemesPaginated } from './../firebase/db/courseThemes/get/getCourseThemesPaginated';
-import { CourseThemeT, CreateCourseThemeT, ChangeCourseThemeT } from './../types/courseThemes';
+import { CourseThemeT, CreateCourseThemeT, ChangeCourseThemeT, CreateCourseThemeFormT } from './../types/courseThemes';
 import { SubmitHandler } from 'react-hook-form';
 import { useCallback, useEffect } from 'react';
 import { PaginationType } from '../types/pagination';
 import { useState } from 'react';
 import { CourseT } from '../types/course';
 import _debounce from 'lodash/debounce';
+import { ref, uploadBytes } from 'firebase/storage';
+import { v4 } from 'uuid';
+import { storage } from '../firebase/initializeFirebase';
 
 export const useCourseThemes = () => {
     const [items,setItems] = useState<CourseThemeT[]>([]);
@@ -40,11 +43,19 @@ export const useCourseThemes = () => {
     const onChangePagination = (page:number,pageSize:number) => {
         setPagination({page,pageSize});
     }
-    const onCreateItem = async (data:CreateCourseThemeT) => {
+    const uploadDocument = async (files:File[]) => {
+        const refs = files.map(file => ref(storage, `studyMaterials/${file.name.split('.')[0] + v4() + '.' + file.name.split('.')[1]}`));
+        //@ts-ignore
+        const uploadQ = refs.map(async (ref,i) => await uploadBytes(ref,files[i].originFileObj));
+        return await Promise.all(uploadQ);
+    }
+    const onCreateItem = async (data:CreateCourseThemeFormT) => {
         console.log(data);
         if(!chosenCourse) return;
         setLoading(prev => ({...prev,create:true}));
-        await createCourseTheme({...data,course:chosenCourse.id,subject:chosenCourse.subject.id});
+        const documents = await uploadDocument(data.documents.map(doc => doc.document.file));
+        console.log('bb',{...data,course:chosenCourse.id,subject:chosenCourse.subject.id,documents:data.documents.map((doc,i) => ({name:doc.name,documentURL: documents[i].metadata.fullPath}))})
+        await createCourseTheme({...data,course:chosenCourse.id,subject:chosenCourse.subject.id,documents:data.documents.map((doc,i) => ({name:doc.name,documentURL: documents[i].metadata.fullPath}))});
         setLoading(prev => ({...prev,create:false}));
 
         setLoading(prev => ({...prev,items:true}));

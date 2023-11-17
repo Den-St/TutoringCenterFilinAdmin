@@ -1,13 +1,13 @@
-import { orderBy } from 'firebase/firestore';
 import { CourseT } from '../../../../types/course';
 import { coursesCollection } from '../../collectionsKeys';
 import { query, where, getDocs } from 'firebase/firestore';
 import { getSubjectById } from '../../subjects/get/getSubjectById';
 
-export const getCoursesBySecondName = async () => {
+export const getCoursesBySecondName = async (secondName:string) => {
     try{
         const q = query(coursesCollection,
-            orderBy('createdAt','desc')
+            where('secondName',">=",secondName || ''),   
+            where('secondName','<=',(secondName || '') + "\uf8ff"),
         );
         const docs = await getDocs(q);
         const coursesDocs = docs.docs;

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Button, Checkbox, Form, Input, Select, Space, TimePicker } from "antd";
+import { Button, Checkbox, Form, Input, Select, Space, TimePicker, Upload } from "antd";
 import Title from "antd/es/typography/Title";
 import { ChangeCourseThemeT, CourseThemeT } from "../../types/courseThemes";
 import { useSearchCourse } from "../../hooks/searchCourse";
@@ -15,7 +15,7 @@ type Props = {
 }
 
 export const ChangeItemForm:React.FC<Props> = ({onChangeItem,pickedItem,chosenCourse,onChangeCourse}) => {
-    const {debounceSearchClass,coursesItems,classSearchLoading} = useSearchCourse();
+    const {coursesItems,classSearchLoading} = useSearchCourse();
     const [form] = Form.useForm<ChangeCourseThemeT>();
 
     useEffect(() => {
@@ -29,10 +29,9 @@ export const ChangeItemForm:React.FC<Props> = ({onChangeItem,pickedItem,chosenCo
         <Form.Item
             label="Курс"
             name="course"
-            rules={[{ required: true, message: 'Please choose course!' }]}
+            rules={[{ required: true, message: 'Будь ласка оберіть курс!' }]}
         >
             <Select 
-                onSearch={debounceSearchClass}
                 showSearch={true}
                 loading={classSearchLoading}
                 value={chosenCourse ? JSON.stringify(chosenCourse) : ''}
@@ -51,21 +50,21 @@ export const ChangeItemForm:React.FC<Props> = ({onChangeItem,pickedItem,chosenCo
         <Form.Item
             label="Назва"
             name="name"
-            rules={[{ required: true, message: 'Please input name of theme!' }]}
+            rules={[{ required: true, message: 'Введіть назву теми!' }]}
         >
             <Input />
         </Form.Item>
         <Form.Item
             label="Subscription duration"
             name="subscriptionDuration"
-            rules={[{ required: true, message: 'Please input short name of course!' }]}
+            rules={[{ required: true, message: 'Введіть тривалість підписки' }]}
         >
             <Input type={"number"} />
         </Form.Item>
         <Form.Item
             label="Price"
             name="price"
-            rules={[{ required: true, message: 'Please input price of theme!' }]}
+            rules={[{ required: true, message: 'Введіть ціну' }]}
         >
             <Input type={'number'} />
         </Form.Item>
@@ -77,21 +76,21 @@ export const ChangeItemForm:React.FC<Props> = ({onChangeItem,pickedItem,chosenCo
                     <Form.Item
                         {...restField}
                         name={[name, 'name']}
-                        rules={[{ required: true, message: 'Уведіть назву відео'}]}
+                        rules={[{ required: true, message: 'Введіть назву відео'}]}
                     >
                         <Input placeholder="Назва відео" />
                     </Form.Item>
                     <Form.Item
                         {...restField}
                         name={[name, 'videoURL']}
-                        rules={[{ required: true, message: 'Увведіть посилання на відео' }]}
+                        rules={[{ required: true, message: 'Введіть посилання на відео' }]}
                     >
                         <Input placeholder="Посилання на відео" />
                     </Form.Item>
                     <Form.Item
                         {...restField}
                         name={[name, 'description']}
-                        rules={[{ required: true, message: 'Уведіть опис відео' }]}
+                        rules={[{ required: true, message: 'Введіть опис відео' }]}
                     >
                         <Input.TextArea autoSize={true} placeholder="Опис відео"/>
                     </Form.Item>
@@ -114,14 +113,14 @@ export const ChangeItemForm:React.FC<Props> = ({onChangeItem,pickedItem,chosenCo
                     <Form.Item
                         {...restField}
                         name={[name, 'name']}
-                        rules={[{ required: true, message: 'Уведіть назву тесту'}]}
+                        rules={[{ required: true, message: 'Введіть назву тесту'}]}
                     >
                         <Input placeholder="Назва тесту" />
                     </Form.Item>
                     <Form.Item
                         {...restField}
                         name={[name, 'testURL']}
-                        rules={[{ required: true, message: 'Уведіть посилання на тест' }]}
+                        rules={[{ required: true, message: 'Введіть посилання на тест' }]}
                     >
                         <Input placeholder="Посилання на тест" />
                     </Form.Item>
@@ -136,7 +135,7 @@ export const ChangeItemForm:React.FC<Props> = ({onChangeItem,pickedItem,chosenCo
                 </>
             )}
             </Form.List>
-            <Form.List name="studyMaterials">
+            <Form.List name="documents">
                     {(fields, { add, remove }) => (
                     <>
                     {fields.map(({ key, name, ...restField }) => (
@@ -144,23 +143,28 @@ export const ChangeItemForm:React.FC<Props> = ({onChangeItem,pickedItem,chosenCo
                         <Form.Item
                             {...restField}
                             name={[name, 'name']}
-                            rules={[{ required: true, message: 'Уведіть назву учбового матеріалу'}]}
+                            rules={[{ required: true, message: 'Введіть назву учбового матеріалу'}]}
                         >
                             <Input placeholder="Назва учбового матеріалу" />
                         </Form.Item>
                         <Form.Item
                             {...restField}
-                            name={[name, 'studyMaterialURL']}
-                            rules={[{ required: true, message: 'Увведіть посилання на учбовий матеріал'}]}
+                            label={'Файл'}
+                            name={[name, 'document']}
+                            rules={[{ required: true, message: 'Введіть документ'}]}
                         >
-                            <Input placeholder="Посилання на учбовий матеріал" />
+                            <Upload>
+                                <div>
+                                    <PlusOutlined />
+                                </div>
+                            </Upload>
                         </Form.Item>
                         <MinusCircleOutlined onClick={() => remove(name)} />
                         </Space>
                     ))}
                     <Form.Item>
                         <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
-                            Додати учбовий матеріал
+                            Додати документ
                         </Button>
                     </Form.Item>
                     </>
@@ -184,7 +188,7 @@ export const ChangeItemForm:React.FC<Props> = ({onChangeItem,pickedItem,chosenCo
         </Form.Item>
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
             <Button type="primary" htmlType="submit">
-                Submit
+                Змінити
             </Button>
         </Form.Item>
     </Form>

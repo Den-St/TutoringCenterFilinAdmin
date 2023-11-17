@@ -1,10 +1,7 @@
-import { useAdminClasses } from "../../hooks/classes";
-import { ClassT, CreateClassType } from "../../types/class";
 import { Button, Checkbox, Form, Input, Table } from "antd";
 import { ColumnsType, TablePaginationConfig } from "antd/es/table";
 import { ChangeClassForm } from "./ChangeForm";
 import { Container, FormsContainer } from "./styles";
-import { useEffect, } from "react";
 import Title from "antd/es/typography/Title";
 import { useAdminSubjects } from "../../hooks/subjects";
 import { CreateSubjectT, SubjectT } from "../../types/subject";
@@ -79,7 +76,7 @@ export default function Subjects() {
                 </Form.Item>
                 <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                     <Button type="primary" htmlType="submit">
-                        Submit
+                        Створити
                     </Button>
                 </Form.Item>
             </Form>

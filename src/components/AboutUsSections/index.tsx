@@ -1,5 +1,3 @@
-import { useAdminClasses } from "../../hooks/classes";
-import { ClassT, CreateClassType } from "../../types/class";
 import { Button, Checkbox, Form, Input, Table } from "antd";
 import { ColumnsType, TablePaginationConfig } from "antd/es/table";
 import { ChangeAboutUsSectionsForm, } from "./ChangeForm";
@@ -14,7 +12,7 @@ import 'react-quill/dist/quill.snow.css';
 import { Timestamp } from "firebase/firestore";
 
 export default function AboutUsSections() {
-    const {loading,onChangePagination,items,refetch,count,pagination,onCreateItem,onChangeItem,onRowEnter,pickedItem,debounceSearch} = useAdminAboutUsSections();
+    const {loading,onChangePagination,items,count,pagination,onCreateItem,onChangeItem,onRowEnter,pickedItem,debounceSearch} = useAdminAboutUsSections();
     const [form] = Form.useForm<CreateAboutUsSectionT>();
     const text = Form.useWatch('text',form);
 
@@ -85,7 +83,7 @@ export default function AboutUsSections() {
         />
         <FormsContainer>
             <Form onFinish={onSubmit} form={form} autoComplete={'off'} >
-                <Title level={4}>Створити розділ "про нас"</Title>
+                <Title level={4}>Створити розділ "Про нас"</Title>
                 <Form.Item
                     label="Номер"
                     name="number"
@@ -116,7 +114,7 @@ export default function AboutUsSections() {
                 </Form.Item>
                 <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                     <Button type="primary" htmlType="submit">
-                        Submit
+                        Створити
                     </Button>
                 </Form.Item>
             </Form>

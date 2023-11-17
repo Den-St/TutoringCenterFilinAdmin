@@ -2,7 +2,7 @@ import { Timestamp } from 'firebase/firestore';
 import { VideoLessonT } from './videoLesson';
 import { ClassT } from './class';
 import { TestT } from './test';
-import { DocumentT } from './document';
+import { CreateDocumentT, DocumentT } from './document';
 
 export type StudyMaterialT = {
     id:string,
@@ -11,9 +11,9 @@ export type StudyMaterialT = {
     name:string;
     description:string
     createdAt:Timestamp
-    videoLessons:Record<number,VideoLessonT>[]
-    tests:Record<number,TestT>[]
-    documents:Record<number,DocumentT>[]
+    videoLessons:VideoLessonT[]
+    tests:TestT[]
+    documents:DocumentT[]
     price:number,
     themes:string
     subscriptionDuration:number
@@ -24,9 +24,9 @@ export type CreateStudyMaterialT = {
     class:string
     name:string;
     description:string
-    videoLessons:Record<number,VideoLessonT>[]
-    tests:Record<number,TestT>[]
-    documents:Record<number,DocumentT>[]
+    videoLessons:VideoLessonT[]
+    tests:TestT[]
+    documents:DocumentT[]
     price:number
     createdAt:Date
     themes:string
@@ -39,9 +39,9 @@ export type CreateStudyMaterialFormT = {
     class:ClassT
     name:string;
     description:string
-    videoLessons:Record<number,VideoLessonT>[]
-    tests:Record<number,TestT>[]
-    documents:Record<number,DocumentT>[]
+    videoLessons:VideoLessonT[]
+    tests:TestT[]
+    documents:CreateDocumentT[]
     price:number
     themes:string
     subscriptionDuration:number
@@ -53,9 +53,9 @@ export type ChangeStudyMaterialT = {
     class:string
     name:string;
     description:string
-    videoLessons:Record<number,VideoLessonT>[]
-    tests:Record<number,TestT>[]
-    documents:Record<number,DocumentT>[]
+    videoLessons:VideoLessonT[]
+    tests:TestT[]
+    documents:DocumentT[]
     price:number
     themes:string
     subscriptionDuration:number
@@ -64,12 +64,12 @@ export type ChangeStudyMaterialT = {
 
 export type ChangeStudyMaterialFormT = {
     forTeachers:boolean,
-    class:ClassT
+    class:string
     name:string;
     description:string
-    videoLessons:Record<number,VideoLessonT>[]
-    tests:Record<number,TestT>[]
-    documents:Record<number,DocumentT>[]
+    videoLessons:VideoLessonT[]
+    tests:TestT[]
+    documents:CreateDocumentT[]
     price:number
     themes:string
     subscriptionDuration:number

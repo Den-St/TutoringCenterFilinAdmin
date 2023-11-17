@@ -3,11 +3,9 @@ import { ClassT } from '../../../../types/class';
 import { query, where, getDocs } from 'firebase/firestore';
 import { classesCollection, subjectsCollection } from '../../collectionsKeys';
 
-export const getSubjectByName = async (name:string) => {
+export const getSubjectByName = async () => {
     try{
         const q = query(subjectsCollection,
-            where('name',">=",name || ''),   
-            where('name','<=',(name || '') + "\uf8ff"),
         );
         
         const docs = await getDocs(q);

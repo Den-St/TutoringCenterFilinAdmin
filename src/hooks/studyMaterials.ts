@@ -13,6 +13,9 @@ import { StudyMaterialT } from '../types/studyMaterial';
 import { getStudyMaterialsPaginated } from '../firebase/db/studyMaterials/get/getStudyMaterialsPaginated';
 import { createStudyMaterial } from '../firebase/db/studyMaterials/create/createStudyMaterial';
 import { changeStudyMaterial } from '../firebase/db/studyMaterials/edit/changeStudyMaterial';
+import { ref, uploadBytes } from 'firebase/storage';
+import { storage } from '../firebase/initializeFirebase';
+import { v4 } from 'uuid';
 
 export const useStudyMaterials = () => {
     const [items,setItems] = useState<StudyMaterialT[]>([]);
@@ -45,20 +48,29 @@ export const useStudyMaterials = () => {
     const onChangePagination = (page:number,pageSize:number) => {
         setPagination({page,pageSize});
     }
+    const uploadDocument = async (files:File[]) => {
+        const refs = files.map(file => ref(storage, `studyMaterials/${file.name.split('.')[0] + v4() + '.' + file.name.split('.')[1]}`));
+        //@ts-ignore
+        const uploadQ = refs.map(async (ref,i) => await uploadBytes(ref,files[i].originFileObj));
+        return await Promise.all(uploadQ);
+    }
     const onCreateItem = async (data:CreateStudyMaterialFormT) => {
         if(!chosenClass) return;
         setLoading(prev => ({...prev,create:true}));
-        await createStudyMaterial({...data,class:chosenClass.id});
+        console.log('bb',data.documents)
+        const documents = await uploadDocument(data.documents.map(doc => doc.document.file));
+        await createStudyMaterial({...data,class:chosenClass.id,documents:data.documents.map((doc,i) => ({name:doc.name,documentURL:documents[i].metadata.fullPath}))});
         setLoading(prev => ({...prev,create:false}));
 
         setLoading(prev => ({...prev,items:true}));
         await fetch();
         setLoading(prev => ({...prev,items:false}));
     }
-    const onChangeItem = async (data:ChangeStudyMaterialT) => {
+    const onChangeItem = async (data:ChangeStudyMaterialFormT) => {
         if(!pickedItem?.id || !chosenClass) return;
         setLoading(prev => ({...prev,create:true}));
-        await changeStudyMaterial(pickedItem?.id,{...data,class:chosenClass.id,price:Number(data.price),subscriptionDuration:Number(data.subscriptionDuration),themes:data.themes.toLowerCase()});
+        const documents = await uploadDocument(data.documents.map(doc => doc.document.file));
+        await changeStudyMaterial(pickedItem?.id,{...data,class:chosenClass.id,price:Number(data.price),subscriptionDuration:Number(data.subscriptionDuration),themes:data.themes.toLowerCase(),documents:data.documents.map((doc,i) => ({name:doc.name,documentURL:documents[i].metadata.fullPath}))});
         setLoading(prev => ({...prev,create:false}));
 
         setLoading(prev => ({...prev,classes:true}));

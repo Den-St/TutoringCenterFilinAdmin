@@ -1,10 +1,11 @@
+import { orderBy } from 'firebase/firestore';
 import { ClassT } from './../../../../types/class';
 import { query, where, getDocs } from 'firebase/firestore';
 import { classesCollection } from '../../collectionsKeys';
 
-export const getClassesByNumber = async (number:number) => {
+export const getClassesByNumber = async () => {
     try{
-        const q = query(classesCollection,where('number','==',number));
+        const q = query(classesCollection,orderBy('number','asc'));
         const docs = await getDocs(q);
         const classesDocs = docs.docs;
         const classes = classesDocs.map(classDoc => classDoc.data());

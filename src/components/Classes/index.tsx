@@ -8,11 +8,6 @@ import { useEffect, } from "react";
 import Title from "antd/es/typography/Title";
 
 const columns:ColumnsType<ClassT> = [
-    // {
-    //     title:'ID',
-    //     dataIndex:'id',
-    //     key:'id'
-    // },
     {
         title:'Номер',
         dataIndex:'number',
@@ -22,12 +17,12 @@ const columns:ColumnsType<ClassT> = [
         title:'Активний',
         dataIndex:'isActive',
         key:'isActive',
-        render:(value) => <Checkbox checked={value} onChange={() => {}} />
+        render:(value) => <Checkbox checked={value} disabled={true}/>
     }
 ];
 
 export default function Classes() {
-    const {loading,onChangePagination,classes,refetch,count,pagination,onCreateClass,onChangeClass,onRowEnter,pickedClass} = useAdminClasses();
+    const {loading,onChangePagination,classes,count,pagination,onCreateClass,onChangeClass,onRowEnter,pickedClass} = useAdminClasses();
     const [form] = Form.useForm<CreateClassType>(); 
 
     const onSubmit = (data: CreateClassType) => {
@@ -50,9 +45,6 @@ export default function Classes() {
         },
         getCheckboxProps: (classItem: ClassT) => ({...classItem}),
     };
-    useEffect(() => {
-        form.setFieldValue('isActive',false);
-    },[]);
 
     return <Container >
         <Table style={{width:'50%'}}
@@ -66,11 +58,11 @@ export default function Classes() {
         />
         <FormsContainer>
             <Form onFinish={onSubmit} form={form} autoComplete={'off'} >
-                <Title level={4}>Create class</Title>
+                <Title level={4}>Створити клас</Title>
                 <Form.Item
                     label="Номер"
                     name="number"
-                    rules={[{ required: true, message: 'Please input class number!' }]}
+                    rules={[{ required: true, message: 'Введіть номер класу!' }]}
                 >
                     <Input type="number"/>
                 </Form.Item>
@@ -84,11 +76,11 @@ export default function Classes() {
                 </Form.Item>
                 <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                     <Button type="primary" htmlType="submit">
-                        Submit
+                        Створити
                     </Button>
                 </Form.Item>
             </Form>
-            <ChangeClassForm pickedClass={pickedClass} classes={classes} onChangeClass={onChangeClass}/>
+            <ChangeClassForm pickedClass={pickedClass} onChangeClass={onChangeClass}/>
         </FormsContainer>
     </Container>
 }

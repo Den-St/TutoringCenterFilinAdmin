@@ -67,13 +67,13 @@ export default function Events() {
             key:'description'
         },
         {
-            title:'Created at',
+            title:'Створено',
             dataIndex:'createdAt',
             key:'createdAt',
             render:(value:Timestamp) => value?.toDate()?.toLocaleString()
         },
         {
-            title:'Is active',
+            title:'Активний?',
             dataIndex:'isActive',
             key:'isActive',
             render:(value) => <Checkbox checked={value} onChange={() => {}} />
@@ -134,7 +134,7 @@ export default function Events() {
                 </Form.Item>
                 <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                     <Button type="primary" htmlType="submit">
-                        Submit
+                        Створити
                     </Button>
                 </Form.Item>
             </Form>

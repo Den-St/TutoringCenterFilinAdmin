@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { AdminT } from "../types/admin";
 import { UserT } from "../types/user";
 
-const initialState:UserT = {
+const initialState:AdminT = {
     email:'',
     id:'',
 }
@@ -10,7 +11,7 @@ const userSlice = createSlice({
     name:'user',
     initialState,
     reducers:{
-        setUser(state,payload:PayloadAction<UserT>){
+        setUser(state,payload:PayloadAction<AdminT>){
             state.email = payload?.payload.email;
             state.id = payload?.payload.id; 
         },

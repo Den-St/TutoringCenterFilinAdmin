@@ -43,7 +43,7 @@ export const useTests = () => {
         console.log(data);
         if(!chosenCourse) return;
         setLoading(prev => ({...prev,create:true}));
-        await createTest({...data,course:chosenCourse.id,subject:chosenCourse.subject.id});
+        await createTest({...data,course:chosenCourse.id,subject:chosenCourse.subject.id,class:chosenCourse.class.id});
         setLoading(prev => ({...prev,create:false}));
 
         setLoading(prev => ({...prev,items:true}));
@@ -53,7 +53,7 @@ export const useTests = () => {
     const onChangeItem = async (data:ChangeTestProductT) => {
         if(!pickedItem?.id || !chosenCourse) return;
         setLoading(prev => ({...prev,create:true}));
-        await changeTest(pickedItem?.id,{...data,course:chosenCourse.id,subject:chosenCourse.subject.id});
+        await changeTest(pickedItem?.id,{...data,course:chosenCourse.id,subject:chosenCourse.subject.id,class:chosenCourse.class.id});
         setLoading(prev => ({...prev,create:false}));
 
         setLoading(prev => ({...prev,classes:true}));
